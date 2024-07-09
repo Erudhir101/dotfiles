@@ -54,5 +54,5 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Shell integrations
 eval "$(fzf --zsh)"
-# eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 eval "$(starship init zsh)"
