@@ -223,8 +223,9 @@ bindsym $mod+Control l resize grow width 5px or 5 ppt
 #     }
 # }
 # exec_always --no-startup-id xrandr --auto --output eDP-1 --primary --mode 1920x1080 --rate 60.00 --output HDMI-1 --mode 1920x1080 --rate 144.00 --right-of eDP-1 
-exec_always --no-startup-id xrandr --auto --output eDP-1 --mode 1920x1080
-exec_always --no-startup-id xrandr --auto --output HDMI-1 --mode 1920x1080 --refresh 144 --above eDP-1
+# exec_always --no-startup-id xrandr --auto --output eDP-1 --mode 1920x1080
+# exec_always --no-startup-id xrandr --auto --output HDMI-1 --mode 1920x1080 --refresh 144 --above eDP-1
+exec_always --no-startup-id autorandr --change 
 exec_always --no-startup-id feh --bg-fill ~/.config/wallpapers/'red sunset'.png 
 exec_always --no-startup-id picom --config $XDG_CONFIG_HOME/picom/picom.conf
 exec_always --no-startup-id ~/.config/polybar/launch.sh 

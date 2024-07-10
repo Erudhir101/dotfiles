@@ -37,7 +37,7 @@ return {
 				"html",
 				"lua_ls",
 				-- "prismals",
-				-- "pyright",
+				"pyright",
 				"svelte",
 				"tailwindcss",
 				"tsserver",
@@ -50,8 +50,8 @@ return {
 			ensure_installed = {
 				"prettier", -- js formatter
 				"stylua", -- lua formatter
-				-- "black", -- python formatter
-				-- "pylint", -- python linter
+				"black", -- python formatter
+				"pylint", -- python linter
 				-- "eslint_d", -- js linter
 				"biome", -- js linter and formatter
 			},
