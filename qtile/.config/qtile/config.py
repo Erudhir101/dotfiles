@@ -33,7 +33,7 @@ from libqtile.lazy import lazy
 # Make sure 'qtile-extras' is installed or this config will not work.
 from qtile_extras import widget
 from qtile_extras.widget import decorations
-from qtile_extras.widget.decorations import BorderDecoration
+from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
 
 # from qtile_extras.widget import StatusNotifier
 import colors
@@ -143,6 +143,12 @@ keys = [
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Run Launcher"),
+    Key(
+        [mod, "shift"],
+        "p",
+        lazy.spawn("rofi -show power-menu -modi power-menu:rofi-power-menu"),
+        desc="Run Launcher",
+    ),
     # Key([mod], "x", lazy.logout(), desc="Logout menu"),
     Key(
         [mod],
@@ -403,6 +409,7 @@ def init_widgets_list():
         ),
         widget.Spacer(length=16),
         widget.KeyboardLayout(
+            configured_keyboards=["us intl", "us"],
             fmt="⌨ Kbd: {}",
             foreground=colors[5],
             decorations=[
@@ -438,17 +445,17 @@ def init_widgets_list():
                 )
             ],
         ),
-        widget.Spacer(length=16),
-        widget.Wlan(
-            format="  '{essid}' {percent:2.0%}",
-            foreground=colors[4],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[4],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
-        ),
+        # widget.Spacer(length=16),
+        # widget.Wlan(
+        #     format="  '{essid}' {percent:2.0%}",
+        #     foreground=colors[4],
+        #     decorations=[
+        #         BorderDecoration(
+        #             colour=colors[4],
+        #             border_width=[0, 0, 2, 0],
+        #         )
+        #     ],
+        # ),
         widget.Spacer(length=16),
         widget.Clock(
             foreground=colors[8],
@@ -460,10 +467,12 @@ def init_widgets_list():
                 )
             ],
         ),
-        widget.Spacer(length=16),
+        widget.Spacer(length=8),
         widget.Systray(
-            background=colors[1],
+            padding=5,
+            background=colors[4],
         ),
+        widget.Spacer(length=3),
     ]
     return widgets_list
 

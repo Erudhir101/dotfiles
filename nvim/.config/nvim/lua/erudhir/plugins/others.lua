@@ -1,5 +1,5 @@
 return {
-	{ "nvim-lua/plenary.nvim" },
+	-- { "nvim-lua/plenary.nvim" },
 	-- { "MunifTanjim/nui.nvim" },
 	{ "christoomey/vim-tmux-navigator" },
 	-- {
