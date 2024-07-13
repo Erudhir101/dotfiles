@@ -243,23 +243,23 @@ group_labels = [
 # group_labels = ["DEV", "WWW", "SYS", "DOC", "VBOX", "CHAT", "MUS", "VID", "GFX",]
 # group_labels = ["", "", "", "", "", "", "", "", "",]
 
-group_layouts = [
-    "monadtall",
-    "monadtall",
-    "tile",
-    "tile",
-    "monadtall",
-    "monadtall",
-    "monadtall",
-    "monadtall",
-    "monadtall",
-]
+# group_layouts = [
+#     "monadtall",
+#     "monadtall",
+#     "tile",
+#     "tile",
+#     "monadtall",
+#     "monadtall",
+#     "monadtall",
+#     "monadtall",
+#     "monadtall",
+# ]
 
 for i in range(len(group_names)):
     groups.append(
         Group(
             name=group_names[i],
-            layout=group_layouts[i].lower(),
+            # layout=group_layouts[i].lower(),
             label=group_labels[i],
         )
     )
@@ -470,7 +470,8 @@ def init_widgets_list():
         widget.Spacer(length=8),
         widget.Systray(
             padding=5,
-            background=colors[4],
+            # background=colors[8],
+            # foreground=colors[4],
         ),
         widget.Spacer(length=3),
     ]
