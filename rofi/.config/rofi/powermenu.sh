@@ -11,7 +11,7 @@
 ## style-6   style-7   style-8   style-9   style-10
 
 # Current Theme
-dir="./"
+dir="."
 theme='powerStyle'
 
 # CMDs
@@ -71,7 +71,9 @@ run_cmd() {
 			amixer set Master mute
 			systemctl suspend
 		elif [[ $1 == '--logout' ]]; then
-			if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+			if [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+        qtile cmd-obj -o cmd -f shutdown
+			elif [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
 				openbox --exit
 			elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
 				bspc quit
