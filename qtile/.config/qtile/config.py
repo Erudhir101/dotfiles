@@ -283,9 +283,10 @@ for i in groups:
             ),
         ]
     )
+
 colors = colors.Dracula
 layout_theme = {
-    "border_width": 2,
+    "border_width": 1,
     "margin": 8,
     "border_focus": colors[7],
     "border_normal": colors[2],
@@ -309,14 +310,14 @@ layouts = [
 
 
 widget_defaults = dict(
-    font="Hack Nerd Font Bold", fontsize=14, padding=0, background=colors[0]
+    font="Fira Code Nerd Font Bold", fontsize=12, padding=0, background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
 
 
 def init_widgets_list():
     widgets_list = [
-        widget.Prompt(font="Hack Nerd Font", foreground=colors[1]),
+        widget.Prompt(foreground=colors[1]),
         widget.GroupBox(
             margin_y=5,
             margin_x=5,
@@ -498,7 +499,7 @@ def init_screens():
     return [
         Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26)),
         Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
+        # Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
     ]
 
 
@@ -535,11 +536,27 @@ floating_layout = layout.Floating(
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="dialog"),  # dialog boxes
+        Match(wm_class="download"),  # downloads
+        Match(wm_class="error"),  # error msgs
+        Match(wm_class="file_progress"),  # file progress boxes
+        Match(wm_class="kdenlive"),  # kdenlive
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
+        Match(wm_class="notification"),  # notifications
+        Match(wm_class="pinentry-gtk-2"),  # GPG key password entry
         Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(wm_class="toolbar"),  # toolbars
+        Match(wm_class="Yad"),  # yad boxes
+        Match(wm_class="pwvucontrol"),  # yad boxes
         Match(title="branchdialog"),  # gitk
+        Match(title="Confirmation"),  # tastyworks exit box
+        Match(title="Qalculate!"),  # qalculate-gtk
         Match(title="pinentry"),  # GPG key password entry
+        Match(title="tastycharts"),  # tastytrade pop-out charts
+        Match(title="tastytrade"),  # tastytrade pop-out side gutter
+        Match(title="tastytrade - Portfolio Report"),  # tastytrade pop-out allocation
+        Match(wm_class="tasty.javafx.launcher.LauncherFxApp"),  # tastytrade settings
     ],
 )
 
@@ -553,10 +570,6 @@ auto_minimize = True
 
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
-
-# xcursor theme (string or None) and size (integer) for Wayland backend
-wl_xcursor_theme = None
-wl_xcursor_size = 24
 
 
 @hook.subscribe.startup
