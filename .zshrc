@@ -43,6 +43,7 @@ alias ls='ls -la --color'
 alias v='nvim'
 alias c='clear'
 alias g='git'
+alias lg='lazygit'
 
 # bun completions
 [ -s "/home/erudhir/.bun/_bun" ] && source "/home/erudhir/.bun/_bun"
