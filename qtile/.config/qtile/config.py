@@ -142,11 +142,16 @@ keys = [
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Run Launcher"),
+    Key(
+        [mod],
+        "p",
+        lazy.spawn("/home/erudhir/.config/rofi/launcher.sh"),
+        desc="Run Launcher",
+    ),
     Key(
         [mod, "shift"],
         "p",
-        lazy.spawn("rofi -show power-menu -modi power-menu:rofi-power-menu"),
+        lazy.spawn("/home/erudhir/.config/rofi/powermenu.sh"),
         desc="Run Launcher",
     ),
     # Key([mod], "x", lazy.logout(), desc="Logout menu"),
