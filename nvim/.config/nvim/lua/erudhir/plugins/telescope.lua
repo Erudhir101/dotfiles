@@ -1,5 +1,6 @@
 return {
 	"nvim-telescope/telescope.nvim",
+	enabled = false,
 	cmd = "Telescope",
 	branch = "0.1.x",
 	event = "VeryLazy",
@@ -21,6 +22,7 @@ return {
 		telescope.setup({
 			defaults = {
 				path_display = { "smart" },
+				color_devicons = true,
 				file_ignore_patterns = {
 					"%.7z",
 					"%.burp",
@@ -101,6 +103,11 @@ return {
 						},
 					},
 					previewer = false,
+					layout_config = {
+						height = 0.6,
+						width = 0.6,
+						preview_cutoff = 120,
+					},
 				},
 			},
 			layout_config = {
