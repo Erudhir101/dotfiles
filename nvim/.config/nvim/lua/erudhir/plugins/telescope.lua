@@ -90,6 +90,18 @@ return {
 				find_files = {
 					hidden = true,
 				},
+				buffers = {
+					initial_mode = "normal",
+					mappings = {
+						i = {
+							["c-d"] = actions.delete_buffer,
+						},
+						n = {
+							["d"] = actions.delete_buffer,
+						},
+					},
+					previewer = false,
+				},
 			},
 			layout_config = {
 				horizontal = {
