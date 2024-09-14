@@ -40,7 +40,7 @@ return {
 				"pyright",
 				"svelte",
 				"tailwindcss",
-				"tsserver",
+				"ts_ls",
 				"gopls",
 			},
 			-- auto-install configured servers (with lspconfig)
