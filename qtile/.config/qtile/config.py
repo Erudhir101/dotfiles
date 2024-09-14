@@ -26,14 +26,15 @@
 
 import os
 import subprocess
-from libqtile import bar, extension, hook, layout, qtile, widget
-from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
+from libqtile import bar, hook, layout, qtile  # , extension
+from libqtile.config import Click, Drag, Group, Key, Match, Screen  # , KeyChord
 from libqtile.lazy import lazy
 
 # Make sure 'qtile-extras' is installed or this config will not work.
 from qtile_extras import widget
-from qtile_extras.widget import decorations
-from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
+
+# from qtile_extras.widget import decorations
+from qtile_extras.widget.decorations import BorderDecoration  # , RectDecoration
 
 # from qtile_extras.widget import StatusNotifier
 import colors
@@ -400,19 +401,19 @@ def init_widgets_list():
                 )
             ],
         ),
-        widget.Spacer(length=16),
-        widget.Volume(
-            # emoji=True,
-            # emoji_list=['','','',''],
-            fmt="🕫 Vol: {}",
-            foreground=colors[6],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[6],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
-        ),
+        # widget.Spacer(length=16),
+        # widget.Volume(
+        #     # emoji=True,
+        #     # emoji_list=['','','',''],
+        #     fmt="🕫 Vol: {}",
+        #     foreground=colors[6],
+        #     decorations=[
+        #         BorderDecoration(
+        #             colour=colors[6],
+        #             border_width=[0, 0, 2, 0],
+        #         )
+        #     ],
+        # ),
         widget.Spacer(length=16),
         widget.KeyboardLayout(
             configured_keyboards=["us intl", "us"],
