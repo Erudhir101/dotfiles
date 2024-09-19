@@ -60,6 +60,10 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfile
 opt.swapfile = false
 
+-- spell check
+opt.spelllang = "pt_br,en_us"
+opt.spell = false
+
 -- Highlight on yank
 vim.cmd("au TextYankPost * lua vim.highlight.on_yank {on_visual = false}")
 
