@@ -211,6 +211,18 @@ bindsym $mod+Control l resize grow width 5px or 5 ppt
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+
+#using bumblebee-status
+# bar {
+# 	font pango:Hack Nerd Font 12
+# 	position top
+# 	tray_output none
+#   status_command /usr/bin/bumblebee-status \
+#                  -m cpu memory battery network datetime \
+#                  pipewire bluetooth \
+#                  -p datetime.format="%A %d/%m/%Y %H:%M:%S" \
+#                  -t iceberg-rainbow
+# }
 # bar {
 #     separator_symbol "|"
 #     status_command SCRIPT_DIR=~/.config/i3blocks i3blocks 
@@ -234,6 +246,9 @@ exec_always --no-startup-id feh --bg-fill /mnt/Backup/Documents/Images/painting.
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always --no-startup-id ~/.config/polybar/launch.sh 
 exec_always --no-startup-id libinput-gestures-setup start
+exec_always --no-startup-id blueman-applet 
+exec_always --no-startup-id nm-applet 
+exec_always --no-startup-id flameshot-applet 
 
 #theme
 
