@@ -403,9 +403,9 @@ def init_widgets_list():
         ),
         # widget.Spacer(length=16),
         # widget.Volume(
-        #     # emoji=True,
-        #     # emoji_list=['','','',''],
-        #     fmt="🕫 Vol: {}",
+        #     emoji=True,
+        #     emoji_list=["", "", "", ""],
+        #     # fmt="🕫 Vol: {}",
         #     foreground=colors[6],
         #     decorations=[
         #         BorderDecoration(

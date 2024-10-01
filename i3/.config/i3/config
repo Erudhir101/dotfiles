@@ -76,7 +76,11 @@ bindsym $mod+Return exec kitty
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+p exec --no-startup-id /home/erudhir/.config/rofi/launcher.sh 
+bindsym $mod+shift+p exec --no-startup-id /home/erudhir/.config/rofi/powermenu.sh
+# bindsym $mod+d exec --no-startup-id rofi run -show drun 
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -170,7 +174,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 # mode "resize" {
@@ -226,8 +230,8 @@ bindsym $mod+Control l resize grow width 5px or 5 ppt
 # exec_always --no-startup-id xrandr --auto --output eDP-1 --mode 1920x1080
 # exec_always --no-startup-id xrandr --auto --output HDMI-1 --mode 1920x1080 --refresh 144 --above eDP-1
 exec_always --no-startup-id autorandr --change 
-exec_always --no-startup-id feh --bg-fill ~/.config/wallpapers/'red sunset'.png 
-exec_always --no-startup-id picom --config $XDG_CONFIG_HOME/picom/picom.conf
+exec_always --no-startup-id feh --bg-fill /mnt/Backup/Documents/Images/painting.jpg 
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always --no-startup-id ~/.config/polybar/launch.sh 
 exec_always --no-startup-id libinput-gestures-setup start
 
@@ -259,6 +263,7 @@ set $surface0 #313244
 set $base #1e1e2e
 set $mantle #181825
 set $crust #11111b
+
 
 # target                 title     bg    text   indicator  border
 client.focused           $lavender $base $text  $rosewater $lavender

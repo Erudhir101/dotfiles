@@ -5,8 +5,7 @@
     selected:       #BD93F9FF;
     active:         #50FA7BFF;
     urgent:         #FF5555FF;
-
-    font: "Hack Nerd Font 10";
+    font: "Hack Nerd Font 14";
 }
 
 /*****----- Configuration -----*****/
@@ -32,7 +31,7 @@ window {
     /* properties for all widgets */
     enabled:                     true;
     margin:                      0px;
-    padding:                     0px;
+    padding:                     16px;
     border:                      0px solid;
     border-radius:               0px;
     border-color:                @selected;
