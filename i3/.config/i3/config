@@ -238,6 +238,7 @@ bindsym $mod+Control l resize grow width 5px or 5 ppt
 #         binding_mode       $base $base $surface1
 #     }
 # }
+
 # exec_always --no-startup-id xrandr --auto --output eDP-1 --primary --mode 1920x1080 --rate 60.00 --output HDMI-1 --mode 1920x1080 --rate 144.00 --right-of eDP-1 
 # exec_always --no-startup-id xrandr --auto --output eDP-1 --mode 1920x1080
 # exec_always --no-startup-id xrandr --auto --output HDMI-1 --mode 1920x1080 --refresh 144 --above eDP-1
@@ -248,7 +249,6 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id libinput-gestures-setup start
 exec_always --no-startup-id blueman-applet 
 exec_always --no-startup-id nm-applet 
-exec_always --no-startup-id flameshot-applet 
 
 #theme
 
