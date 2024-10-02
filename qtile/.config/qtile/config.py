@@ -401,19 +401,19 @@ def init_widgets_list():
                 )
             ],
         ),
-        # widget.Spacer(length=16),
-        # widget.Volume(
-        #     emoji=True,
-        #     emoji_list=["", "", "", ""],
-        #     # fmt="🕫 Vol: {}",
-        #     foreground=colors[6],
-        #     decorations=[
-        #         BorderDecoration(
-        #             colour=colors[6],
-        #             border_width=[0, 0, 2, 0],
-        #         )
-        #     ],
-        # ),
+        widget.Spacer(length=16),
+        widget.Volume(
+            # emoji_list=["", "", "", ""],
+            # emoji=True,
+            fmt="Vol:{}",
+            foreground=colors[1],
+            decorations=[
+                BorderDecoration(
+                    colour=colors[4],
+                    border_width=[0, 0, 2, 0],
+                )
+            ],
+        ),
         widget.Spacer(length=16),
         widget.KeyboardLayout(
             configured_keyboards=["us intl", "us"],
