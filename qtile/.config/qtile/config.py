@@ -207,6 +207,7 @@ keys = [
         lazy.spawn("pactl set-sink-volume 0 +5%"),
         desc="Audio volume +5%",
     ),
+    Key([], "Print", lazy.spawn("flameshot gui"), desc="PrintScreen in Qtile"),
 ]
 
 # Add key bindings to switch VTs in Wayland.

@@ -5,4 +5,4 @@ picom -b &
 libinput-gestures-setup start &
 blueman-applet &
 nm-applet &
-flameshot-applet & 
+flameshot & 
