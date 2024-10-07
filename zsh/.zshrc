@@ -45,6 +45,8 @@ alias v='nvim'
 alias c='clear'
 alias g='git'
 alias lg='lazygit'
+alias zl='zellij'
+
 
 # bun completions
 [ -s "/home/erudhir/.bun/_bun" ] && source "/home/erudhir/.bun/_bun"
