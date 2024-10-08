@@ -40,7 +40,8 @@ zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
 # zstyle ':zfz-tab:completion:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls='ls -la --color'
+# alias ls='ls -la --color'
+alias ls='eza -la --icons=always'
 alias v='nvim'
 alias c='clear'
 alias g='git'
