@@ -40,7 +40,7 @@ from qtile_extras.widget.decorations import BorderDecoration  # , RectDecoration
 import colors
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "wezterm"
 
 
 # Allows you to input a name when adding treetab section.
@@ -293,7 +293,7 @@ for i in groups:
 
 colors = colors.Dracula
 layout_theme = {
-    "border_width": 1,
+    "border_width": 2,
     "margin": 8,
     "border_focus": colors[7],
     "border_normal": colors[2],
@@ -317,7 +317,7 @@ layouts = [
 
 
 widget_defaults = dict(
-    font="Fira Code Nerd Font Bold", fontsize=12, padding=0, background=colors[2]
+    font="Hack Nerd Font Bold", fontsize=12, padding=0, background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
 

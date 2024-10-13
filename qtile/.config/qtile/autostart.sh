@@ -1,8 +1,8 @@
 #!/bin/sh
-# autorandr --change &
+autorandr --change &
 feh --bg-scale /media/erudhir/Backup/Documents/Images/painting.jpg &
-picom -b &
-# libinput-gestures-setup start &
-# blueman-applet &
-# nm-applet &
-# flameshot & 
+picom --config ~/.config/picom/picom.conf &
+libinput-gestures-setup start &
+blueman-applet &
+nm-applet &
+flameshot & 
