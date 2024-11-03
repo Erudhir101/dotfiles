@@ -70,3 +70,14 @@ vim.cmd("au TextYankPost * lua vim.highlight.on_yank {on_visual = false}")
 
 -- tree setting in explore
 vim.cmd("let g:netrw_liststyle = 3")
+
+-- markdown config
+vim.api.nvim_create_autocmd({ "filetype" }, {
+	pattern = { "*" },
+	callback = function()
+		if vim.bo.filetype == "markdown" then
+			opt.spell = true
+			opt.wrap = true
+		end
+	end,
+})
