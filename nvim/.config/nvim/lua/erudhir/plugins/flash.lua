@@ -13,7 +13,7 @@ return {
 				desc = "Flash Jump",
 			},
 			{
-				"S",
+				";s",
 				mode = { "n", "x", "o" },
 				function()
 					require("flash").treesitter()
