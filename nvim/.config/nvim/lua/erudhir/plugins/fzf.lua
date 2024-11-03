@@ -39,5 +39,9 @@ return {
 		keymap.set("n", ";k", function()
 			fzf.keymaps()
 		end, { desc = "Find keymaps" })
+
+		keymap.set("n", ";z", function()
+			fzf.spell_suggest()
+		end, { desc = "show spell words suggestions" })
 	end,
 }
