@@ -175,7 +175,7 @@ keys = [
         desc="Toggle hide/show all windows on current group",
     ),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    # Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key(
         [],
@@ -287,6 +287,18 @@ for i in groups:
                 i.name,
                 lazy.window.togroup(i.name, switch_group=False),
                 desc="Move focused window to group {}".format(i.name),
+            ),
+            Key(
+                [mod],
+                "l",
+                lazy.screen.next_group(),
+                desc="Going to right group",
+            ),
+            Key(
+                [mod],
+                "h",
+                lazy.screen.prev_group(),
+                desc="Going to left group",
             ),
         ]
     )

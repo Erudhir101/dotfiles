@@ -243,10 +243,10 @@ bindsym $mod+Control l resize grow width 5px or 5 ppt
 # exec_always --no-startup-id xrandr --auto --output eDP-1 --mode 1920x1080
 # exec_always --no-startup-id xrandr --auto --output HDMI-1 --mode 1920x1080 --refresh 144 --above eDP-1
 exec_always --no-startup-id autorandr --change 
-exec_always --no-startup-id feh --bg-fill /media/erudhir/Backup/Documents/Images/painting.jpg 
+exec_always --no-startup-id feh --bg-fill /mnt/Backup/Documents/Images/painting.jpg 
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always --no-startup-id ~/.config/polybar/launch.sh 
-exec_always --no-startup-id libinput-gestures-setup start
+# exec_always --no-startup-id libinput-gestures-setup start
 exec_always --no-startup-id blueman-applet 
 exec_always --no-startup-id nm-applet 
 exec_always --no-startup-id flameshot 
