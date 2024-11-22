@@ -81,3 +81,17 @@ vim.api.nvim_create_autocmd({ "filetype" }, {
 		end
 	end,
 })
+
+-- Don"t auto commenting new lines
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "",
+	command = "set fo-=c fo-=r fo-=o",
+})
+
+vim.api.nvim_create_autocmd("Filetype", {
+	pattern = { "gitcommit", "markdown", "text" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.spell = true
+	end,
+})
