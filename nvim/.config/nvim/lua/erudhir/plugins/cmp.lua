@@ -34,7 +34,6 @@ return {
 		"L3MON4D3/LuaSnip", -- snippet engine
 		"hrsh7th/cmp-buffer", -- source for text in buffer
 		"hrsh7th/cmp-path", -- source for file system paths
-		"onsails/lspkind.nvim", -- vs-code like pictograms
 		"rafamadriz/friendly-snippets", -- useful snippets
 		"saadparwaiz1/cmp_luasnip", -- for autocompletion
 	},
@@ -45,7 +44,6 @@ return {
 		end
 
 		local luasnip = require("luasnip")
-		local lspkind = require("lspkind")
 
 		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
 		require("luasnip.loaders.from_vscode").lazy_load()
@@ -78,10 +76,8 @@ return {
 				{ name = "path" }, -- file system paths
 			}),
 
-			-- configure lspkind for vs-code like pictograms in completion menu
 			formatting = {
 				format = function(entry, vim_item)
-					vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
 					vim_item.menu = ({
 						buffer = "[Buf]",
 						nvim_lsp = "[LSP]",
@@ -89,22 +85,8 @@ return {
 						nvim_lua = "[Lua]",
 						latex_symbols = "[Latex]",
 					})[entry.source.name]
-					return vim_item
+					return require("nvim-highlight-colors").format(entry, vim_item)
 				end,
-				--  = {
-				-- format = lspkind.cmp_format({
-				-- 	maxwidth = 50,
-				-- 	ellipsis_char = "...",
-				-- 	mode = "symbol_text",
-				-- 	show_labelDetails = true,
-				-- 	menu = {
-				-- 		buffer = "[Buffer]",
-				-- 		nvim_lsp = "[LSP]",
-				-- 		luasnip = "[LuaSnip]",
-				-- 		nvim_lua = "[Lua]",
-				-- 		latex_symbols = "[Latex]",
-				-- 	},
-				-- }),
 			},
 		})
 	end,
