@@ -1,20 +1,20 @@
 return {
 	{ "echasnovski/mini.bracketed", version = false, config = true },
-	-- {
-	-- 	"echasnovski/mini.surround",
-	-- 	version = false,
-	-- 	opts = {
-	-- 		mappings = {
-	-- 			add = "gsa", -- Add surrounding in Normal and Visual modes
-	-- 			delete = "gsd", -- Delete surrounding
-	-- 			find = "gsf", -- Find surrounding (to the right)
-	-- 			find_left = "gsF", -- Find surrounding (to the left)
-	-- 			highlight = "gsh", -- Highlight surrounding
-	-- 			replace = "gsr", -- Replace surrounding
-	-- 			update_n_lines = "gsn", -- Update `n_lines`
-	-- 		},
-	-- 	},
-	-- },
+	{
+		"echasnovski/mini.surround",
+		version = false,
+		opts = {
+			mappings = {
+				add = "gsa", -- Add surrounding in Normal and Visual modes
+				delete = "gsd", -- Delete surrounding
+				find = "gsf", -- Find surrounding (to the right)
+				find_left = "gsF", -- Find surrounding (to the left)
+				highlight = "gsh", -- Highlight surrounding
+				replace = "gsr", -- Replace surrounding
+				update_n_lines = "gsn", -- Update `n_lines`
+			},
+		},
+	},
 	{
 		"echasnovski/mini.hipatterns",
 		version = false,
@@ -36,8 +36,7 @@ return {
 				},
 			})
 		end,
-	},
-	-- {
+	}, -- {
 	-- 	"echasnovski/mini.indentscope",
 	-- 	version = false, -- wait till new 0.7.0 release to put it back on semver
 	-- 	event = { "BufReadPost", "BufNewFile", "BufWritePre" },
@@ -66,31 +65,5 @@ return {
 	-- 			end,
 	-- 		})
 	-- 	end,
-	-- },
-	-- {
-	-- 	"echasnovski/mini.files",
-	-- 	config = function()
-	-- 		local status, files = pcall(require, "mini.files")
-	-- 		if not status then
-	-- 			return
-	-- 		end
-	-- 		files.setup({})
-	-- 	end,
-	-- 	keys = {
-	-- 		{
-	-- 			"<leader>e",
-	-- 			function()
-	-- 				require("mini.files").open(vim.api.nvim_buf_get_name(0), true)
-	-- 			end,
-	-- 			desc = "open mini.files (directory of current file)",
-	-- 		},
-	-- 		{
-	-- 			"<leader>E",
-	-- 			function()
-	-- 				require("mini.files").open(vim.uv.cwd(), true)
-	-- 			end,
-	-- 			desc = "open mini.files (cwd)",
-	-- 		},
-	-- 	},
 	-- },
 }
