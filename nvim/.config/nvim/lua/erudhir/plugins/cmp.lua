@@ -1,92 +1,65 @@
-local kind_icons = {
-	Text = " ",
-	Method = " ",
-	Function = " ",
-	Constructor = " ",
-	Field = " ",
-	Variable = " ",
-	Class = " ",
-	Interface = " ",
-	Module = " ",
-	Property = " ",
-	Unit = " ",
-	Value = " ",
-	Enum = " ",
-	Keyword = " ",
-	Snippet = " ",
-	Color = " ",
-	File = " ",
-	Reference = " ",
-	Folder = " ",
-	EnumMember = " ",
-	Constant = " ",
-	Struct = " ",
-	Event = " ",
-	Operator = " ",
-	TypeParameter = " ",
-}
-
 return {
 	"hrsh7th/nvim-cmp",
-	-- lazy = true,
+	version = false,
 	event = "InsertEnter",
 	dependencies = {
-		"L3MON4D3/LuaSnip", -- snippet engine
-		"hrsh7th/cmp-buffer", -- source for text in buffer
-		"hrsh7th/cmp-path", -- source for file system paths
-		"rafamadriz/friendly-snippets", -- useful snippets
-		"saadparwaiz1/cmp_luasnip", -- for autocompletion
+		"L3MON4D3/LuaSnip",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-nvim-lsp-signature-help",
+		"hrsh7th/cmp-nvim-lua",
+		"hrsh7th/cmp-path",
+		"onsails/lspkind-nvim",
+		"rafamadriz/friendly-snippets",
+		"saadparwaiz1/cmp_luasnip",
 	},
+
 	config = function()
-		local status, cmp = pcall(require, "cmp")
-		if not status then
-			return
-		end
+		local cmp = require("cmp")
+		local lsp_kind = require("lspkind")
 
-		local luasnip = require("luasnip")
-
-		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
-		require("luasnip.loaders.from_vscode").lazy_load()
-
+		lsp_kind.init()
+		---@diagnostic disable-next-line
 		cmp.setup({
+			enabled = true,
+			preselect = cmp.PreselectMode.None,
 			window = {
-				completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
+				completion = cmp.config.window.bordered({
+					winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",
+				}),
+				documentation = cmp.config.window.bordered({
+					winhighlight = "Normal:Normal,FloatBorder:LspBorderBG,CursorLine:PmenuSel,Search:None",
+				}),
 			},
-			-- completion = {
-			-- 	completeopt = "menu,menuone,preview,noselect",
-			-- },
-			snippet = { -- configure how nvim-cmp interacts with snippet engine
+			---@diagnostic disable-next-line
+			view = {
+				entries = "bordered",
+			},
+			snippet = {
 				expand = function(args)
-					luasnip.lsp_expand(args.body)
+					require("luasnip").lsp_expand(args.body)
 				end,
 			},
-			mapping = cmp.mapping.preset.insert({
-				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
-				["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-				["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-				["<C-e>"] = cmp.mapping.abort(), -- close completion window
-				["<CR>"] = cmp.mapping.confirm({ select = true }),
-			}),
-			-- sources for autocompletion
-			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- snippets
-				{ name = "buffer" }, -- text within current buffer
-				{ name = "path" }, -- file system paths
-			}),
-
-			formatting = {
-				format = function(entry, vim_item)
-					vim_item.menu = ({
-						buffer = "[Buf]",
-						nvim_lsp = "[LSP]",
-						luasnip = "[Snip]",
-						nvim_lua = "[Lua]",
-						latex_symbols = "[Latex]",
-					})[entry.source.name]
-					return require("nvim-highlight-colors").format(entry, vim_item)
-				end,
+			mapping = {
+				["<C-k>"] = cmp.mapping.select_prev_item(),
+				["<C-j>"] = cmp.mapping.select_next_item(),
+				["<C-p>"] = cmp.mapping.scroll_docs(-4),
+				["<C-n>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping.complete(),
+				["<C-c>"] = cmp.mapping.close(),
+				["<CR>"] = cmp.mapping.confirm({
+					behavior = cmp.ConfirmBehavior.Replace,
+					select = true,
+				}),
+			},
+			sources = {
+				{ name = "nvim_lsp_signature_help", group_index = 1 },
+				{ name = "luasnip", max_item_count = 5, group_index = 1 },
+				{ name = "nvim_lsp", max_item_count = 20, group_index = 1 },
+				{ name = "nvim_lua", group_index = 1 },
+				{ name = "vim-dadbod-completion", group_index = 1 },
+				{ name = "path", group_index = 2 },
+				{ name = "buffer", keyword_length = 2, max_item_count = 5, group_index = 2 },
 			},
 		})
 	end,
