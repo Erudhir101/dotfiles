@@ -26,6 +26,7 @@
 
 import os
 import subprocess
+
 from libqtile import bar, hook, layout, qtile  # , extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen  # , KeyChord
 from libqtile.lazy import lazy
@@ -37,10 +38,10 @@ from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration  # , RectDecoration
 
 # from qtile_extras.widget import StatusNotifier
-import colors
+import colors as colorsType
 
 mod = "mod4"
-terminal = "wezterm"
+terminal = "kitty"
 
 
 # Allows you to input a name when adding treetab section.
@@ -271,39 +272,27 @@ for i in range(len(group_names)):
         )
     )
 
-for i in groups:
+for group in groups:
     keys.extend(
         [
             # mod1 + letter of group = switch to group
             Key(
                 [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
+                group.name,
+                lazy.group[group.name].toscreen(),
+                desc="Switch to group {}".format(group.name),
             ),
             # mod1 + shift + letter of group = move focused window to group
             Key(
                 [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=False),
-                desc="Move focused window to group {}".format(i.name),
-            ),
-            Key(
-                [mod],
-                "l",
-                lazy.screen.next_group(),
-                desc="Going to right group",
-            ),
-            Key(
-                [mod],
-                "h",
-                lazy.screen.prev_group(),
-                desc="Going to left group",
+                group.name,
+                lazy.window.togroup(group.name, switch_group=False),
+                desc="Move focused window to group {}".format(group.name),
             ),
         ]
     )
 
-colors = colors.Dracula
+colors = colorsType.Dracula
 layout_theme = {
     "border_width": 2,
     "margin": 8,
@@ -389,8 +378,20 @@ def init_widgets_list():
         #     ],
         # ),
         # widget.Spacer(length=16),
+        widget.ThermalSensor(
+            format="{temp: .0f}{unit}",
+            update_interval=5.0,
+            decorations=[
+                BorderDecoration(
+                    colour=colors[1],
+                    border_width=[0, 0, 2, 0],
+                )
+            ],
+        ),
+        widget.Spacer(length=16),
         widget.CPU(
-            format="🖥 Cpu: {freq_current}GHz",
+            # format="CPU: {freq_current}GHz/{load_percent}%",
+            format="CPU:{load_percent}%",
             update_interval=5.0,
             foreground=colors[8],
             decorations=[
@@ -402,9 +403,10 @@ def init_widgets_list():
         ),
         widget.Spacer(length=16),
         widget.Memory(
-            format="{MemUsed: .2f}{mm}/{MemTotal: .2f}{mm}",
+            # format="{MemUsed: .0f}{mm}|{MemTotal: .0f}{mm}",
+            format="{MemPercent}%",
             measure_mem="G",
-            fmt="▓ Mem:{}",
+            fmt="MEM:{}",
             update_interval=5.0,
             foreground=colors[7],
             decorations=[
@@ -430,7 +432,7 @@ def init_widgets_list():
         widget.Spacer(length=16),
         widget.KeyboardLayout(
             configured_keyboards=["us intl", "us"],
-            fmt="⌨ Kbd: {}",
+            fmt="⌨ {}",
             foreground=colors[5],
             decorations=[
                 BorderDecoration(
@@ -454,7 +456,7 @@ def init_widgets_list():
         widget.Spacer(length=16),
         widget.Backlight(
             backlight_name="intel_backlight",
-            fmt="  Bright: {}",
+            fmt="  {}",
             step=5,
             change_command="xbacklight -set {0}",
             foreground=colors[7],
@@ -479,7 +481,7 @@ def init_widgets_list():
         widget.Spacer(length=16),
         widget.Clock(
             foreground=colors[8],
-            format="⏱ %a,%d/%m/%Y - %H:%M:%S",
+            format="⏱ %a,%d/%m/%y - %H:%M:%S",
             decorations=[
                 BorderDecoration(
                     colour=colors[8],
@@ -498,35 +500,20 @@ def init_widgets_list():
     return widgets_list
 
 
-def init_widgets_screen1():
-    widgets_screen1 = init_widgets_list()
-    return widgets_screen1
-
-
-# All other monitors' bars will display everything but widgets 22 (systray) and 23 (spacer).
-def init_widgets_screen2():
-    widgets_screen2 = init_widgets_list()
-    del widgets_screen2[22:24]
-    return widgets_screen2
-
-
 # For adding transparency to your bar, add (background="#00000000") to the "Screen" line(s)
 # For ex: Screen(top=bar.Bar(widgets=init_widgets_screen2(), background="#00000000", size=24)),
 
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26)),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
-        # Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
+        Screen(top=bar.Bar(widgets=init_widgets_list(), size=26)),
     ]
 
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
     widgets_list = init_widgets_list()
-    widgets_screen1 = init_widgets_screen1()
-    widgets_screen2 = init_widgets_screen2()
+
 
 # Drag floating layouts.
 mouse = [
