@@ -500,19 +500,34 @@ def init_widgets_list():
     return widgets_list
 
 
+def init_widgets_screen1():
+    widgets_screen1 = init_widgets_list()
+    return widgets_screen1
+
+
+# All other monitors' bars will display everything but widgets 22 (systray) and 23 (spacer).
+def init_widgets_screen2():
+    widgets_screen2 = init_widgets_list()
+    del widgets_screen2[25:27]
+    return widgets_screen2
+
+
 # For adding transparency to your bar, add (background="#00000000") to the "Screen" line(s)
 # For ex: Screen(top=bar.Bar(widgets=init_widgets_screen2(), background="#00000000", size=24)),
 
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_list(), size=26)),
+        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26)),
+        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
     ]
 
 
 if __name__ in ["config", "__main__"]:
     screens = init_screens()
     widgets_list = init_widgets_list()
+    widgets_screen1 = init_widgets_screen1()
+    widgets_screen2 = init_widgets_screen2()
 
 
 # Drag floating layouts.
