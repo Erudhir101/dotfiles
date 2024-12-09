@@ -1,130 +1,234 @@
 return {
 	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
+	event = { "BufRead", "BufNewFile" },
 	dependencies = {
+		"folke/neodev.nvim",
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/cmp-nvim-lsp",
-		-- { "antosha417/nvim-lsp-file-operations", config = true },
-		-- { "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
-		-- import lspconfig plugin
+		local fn = vim.fn
+		local api = vim.api
+		local keymap = vim.keymap
+		local lsp = vim.lsp
+		local diagnostic = vim.diagnostic
 		local lspconfig = require("lspconfig")
 
-		-- import mason_lspconfig plugin
-		local mason_lspconfig = require("mason-lspconfig")
-
-		-- import cmp-nvim-lsp plugin
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-		-- import fidget plugin
-		-- require("fidget").setup({})
-
-		local keymap = vim.keymap -- for conciseness
-
-		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-			callback = function(ev)
-				-- Buffer local mappings.
-				-- See `:help vim.lsp.*` for documentation on any of the below functions
-				local opts = { buffer = ev.buf, silent = true }
-
-				-- set keybinds
-				opts.desc = "Show LSP definitions"
-				-- keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-				keymap.set("n", "<leader>gd", "<cmd>FzfLua lsp_definitions<CR>", opts) -- show lsp definitions
-
-				opts.desc = "Show LSP implementations"
-				-- keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-				keymap.set("n", "<leader>gi", "<cmd>FzfLua lsp_implementations<CR>", opts) -- show lsp implementations
-
-				opts.desc = "Show LSP type definitions"
-				-- keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-				keymap.set("n", "<leader>gt", "<cmd>FzfLua lsp_typedefs<CR>", opts) -- show lsp type definitions
-
-				opts.desc = "See available code actions"
-				-- keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-				keymap.set({ "n", "v" }, "<leader>ca", "<cmd>FzfLua lsp_code_actions<CR>", opts) -- see available code actions, in visual mode will apply to selection
-
-				opts.desc = "Smart rename"
-				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-				opts.desc = "Show line diagnostics"
-				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-				opts.desc = "Show documentation for what is under cursor"
-				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
-				opts.desc = "Restart LSP"
-				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-			end,
-		})
-
-		-- used to enable autocompletion (assign to every lsp server config)
-		local capabilities = cmp_nvim_lsp.default_capabilities()
-
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- (not in youtube nvim video)
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+		local executable = function(name)
+			if vim.fn.executable(name) > 0 then
+				return true
+			end
+			return false
 		end
 
-		mason_lspconfig.setup_handlers({
-			-- default handler for installed servers
-			function(server_name)
-				lspconfig[server_name].setup({
-					capabilities = capabilities,
-				})
-			end,
-			["svelte"] = function()
-				-- configure svelte server
-				lspconfig["svelte"].setup({
-					capabilities = capabilities,
-					on_attach = function(client, bufnr)
-						vim.api.nvim_create_autocmd("BufWritePost", {
-							pattern = { "*.js", "*.ts" },
-							callback = function(ctx)
-								-- Here use ctx.match instead of ctx.file
-								client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-							end,
-						})
+		-- set quickfix list from diagnostics in a certain buffer, not the whole workspace
+		local set_qflist = function(buf_num, severity)
+			local diagnostics = nil
+			diagnostics = diagnostic.get(buf_num, { severity = severity })
+
+			local qf_items = diagnostic.toqflist(diagnostics)
+			vim.fn.setqflist({}, " ", { title = "Diagnostics", items = qf_items })
+
+			-- open quickfix by default
+			vim.cmd([[copen]])
+		end
+
+		local custom_attach = function(client, bufnr)
+			-- Mappings.
+			local map = function(mode, l, r, opts)
+				opts = opts or {}
+				opts.silent = true
+				opts.buffer = bufnr
+				keymap.set(mode, l, r, opts)
+			end
+
+			map("n", "gd", vim.lsp.buf.definition, { desc = "go to definition" })
+			map("n", "<C-]>", vim.lsp.buf.definition)
+			map("n", "K", vim.lsp.buf.hover)
+			map("n", "<C-k>", vim.lsp.buf.signature_help)
+			map("n", "<space>rn", vim.lsp.buf.rename, { desc = "varialbe rename" })
+			map("n", "gr", vim.lsp.buf.references, { desc = "show references" })
+			map("n", "[d", diagnostic.goto_prev, { desc = "previous diagnostic" })
+			map("n", "]d", diagnostic.goto_next, { desc = "next diagnostic" })
+			-- this puts diagnostics from opened files to quickfix
+			map("n", "<space>qw", diagnostic.setqflist, { desc = "put window diagnostics to qf" })
+			-- this puts diagnostics from current buffer to quickfix
+			map("n", "<space>qb", function()
+				set_qflist(bufnr)
+			end, { desc = "put buffer diagnostics to qf" })
+			map("n", "<space>ca", vim.lsp.buf.code_action, { desc = "LSP code action" })
+			map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { desc = "add workspace folder" })
+			map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, { desc = "remove workspace folder" })
+			map("n", "<space>wl", function()
+				vim.print(vim.lsp.buf.list_workspace_folders())
+			end, { desc = "list workspace folder" })
+
+			-- Set some key bindings conditional on server capabilities
+			if client.server_capabilities.documentFormattingProvider then
+				map({ "n", "x" }, "<space>f", vim.lsp.buf.format, { desc = "format code" })
+			end
+
+			-- Uncomment code below to enable inlay hint from language server, some LSP server supports inlay hint,
+			-- but disable this feature by default, so you may need to enable inlay hint in the LSP server config.
+			-- vim.lsp.inlay_hint.enable(true, {buffer=bufnr})
+
+			api.nvim_create_autocmd("CursorHold", {
+				buffer = bufnr,
+				callback = function()
+					local float_opts = {
+						focusable = false,
+						close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+						border = "rounded",
+						source = "always", -- show source in diagnostic popup window
+						prefix = " ",
+					}
+
+					if not vim.b.diagnostics_pos then
+						vim.b.diagnostics_pos = { nil, nil }
+					end
+
+					local cursor_pos = api.nvim_win_get_cursor(0)
+					if
+						(cursor_pos[1] ~= vim.b.diagnostics_pos[1] or cursor_pos[2] ~= vim.b.diagnostics_pos[2])
+						and #diagnostic.get() > 0
+					then
+						diagnostic.open_float(nil, float_opts)
+					end
+
+					vim.b.diagnostics_pos = cursor_pos
+				end,
+			})
+
+			-- The blow command will highlight the current variable and its usages in the buffer.
+			if client.server_capabilities.documentHighlightProvider then
+				vim.cmd([[
+      hi! link LspReferenceRead Visual
+      hi! link LspReferenceText Visual
+      hi! link LspReferenceWrite Visual
+    ]])
+
+				local gid = api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+				api.nvim_create_autocmd("CursorHold", {
+					group = gid,
+					buffer = bufnr,
+					callback = function()
+						lsp.buf.document_highlight()
 					end,
 				})
-			end,
-			["emmet_ls"] = function()
-				-- configure emmet language server
-				lspconfig["emmet_ls"].setup({
-					capabilities = capabilities,
-					filetypes = {
-						"html",
-						"typescriptreact",
-						"javascriptreact",
-						"css",
-						"sass",
-						"scss",
-						"less",
-						"svelte",
-					},
+
+				api.nvim_create_autocmd("CursorMoved", {
+					group = gid,
+					buffer = bufnr,
+					callback = function()
+						lsp.buf.clear_references()
+					end,
 				})
-			end,
-			["lua_ls"] = function()
-				-- configure lua server (with special settings)
-				lspconfig["lua_ls"].setup({
-					capabilities = capabilities,
+			end
+
+			if vim.g.logging_level == "debug" then
+				local msg = string.format("Language server %s started!", client.name)
+				vim.notify(msg, vim.log.levels.DEBUG, { title = "Nvim-config" })
+			end
+		end
+
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+		-- required by nvim-ufo
+		capabilities.textDocument.foldingRange = {
+			dynamicRegistration = false,
+			lineFoldingOnly = true,
+		}
+
+		-- For what diagnostic is enabled in which type checking mode, check doc:
+		-- https://github.com/microsoft/pyright/blob/main/docs/configuration.md#diagnostic-settings-defaults
+		-- Currently, the pyright also has some issues displaying hover documentation:
+		-- https://www.reddit.com/r/neovim/comments/1gdv1rc/what_is_causeing_the_lsp_hover_docs_to_looks_like/
+
+		if executable("ruff") then
+			require("lspconfig").ruff.setup({
+				on_attach = custom_attach,
+				capabilities = capabilities,
+				init_options = {
+					-- the settings can be found here: https://docs.astral.sh/ruff/editors/settings/
 					settings = {
-						Lua = {
-							-- make the language server recognize "vim" global
-							diagnostics = {
-								globals = { "vim" },
-							},
-							completion = {
-								callSnippet = "Replace",
-							},
+						organizeImports = true,
+					},
+				},
+			})
+		end
+
+		-- Disable ruff hover feature in favor of Pyright
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("lsp_attach_disable_ruff_hover", { clear = true }),
+			callback = function(args)
+				local client = vim.lsp.get_client_by_id(args.data.client_id)
+				-- vim.print(client.name, client.server_capabilities)
+
+				if client == nil then
+					return
+				end
+				if client.name == "ruff" then
+					client.server_capabilities.hoverProvider = false
+				end
+			end,
+			desc = "LSP: Disable hover capability from Ruff",
+		})
+
+		if executable("clangd") then
+			lspconfig.clangd.setup({
+				on_attach = custom_attach,
+				capabilities = capabilities,
+				filetypes = { "c", "cpp", "cc" },
+				flags = {
+					debounce_text_changes = 500,
+				},
+			})
+		end
+
+		-- settings for lua-language-server can be found on https://luals.github.io/wiki/settings/
+		if executable("lua-language-server") then
+			lspconfig.lua_ls.setup({
+				on_attach = custom_attach,
+				settings = {
+					Lua = {
+						runtime = {
+							-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+							version = "LuaJIT",
+						},
+						hint = {
+							enable = true,
 						},
 					},
-				})
-			end,
+				},
+				capabilities = capabilities,
+			})
+		end
+
+		-- Change diagnostic signs.
+		fn.sign_define("DiagnosticSignError", { text = "🆇", texthl = "DiagnosticSignError" })
+		fn.sign_define("DiagnosticSignWarn", { text = "⚠️", texthl = "DiagnosticSignWarn" })
+		fn.sign_define("DiagnosticSignInfo", { text = "ℹ️", texthl = "DiagnosticSignInfo" })
+		fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+
+		-- global config for diagnostic
+		diagnostic.config({
+			underline = false,
+			virtual_text = false,
+			signs = true,
+			severity_sort = true,
+		})
+
+		-- lsp.handlers["textDocument/publishDiagnostics"] = lsp.with(lsp.diagnostic.on_publish_diagnostics, {
+		--   underline = false,
+		--   virtual_text = false,
+		--   signs = true,
+		--   update_in_insert = false,
+		-- })
+
+		-- Change border of documentation hover window, See https://github.com/neovim/neovim/pull/13998.
+		lsp.handlers["textDocument/hover"] = lsp.with(vim.lsp.handlers.hover, {
+			border = "rounded",
 		})
 	end,
 }

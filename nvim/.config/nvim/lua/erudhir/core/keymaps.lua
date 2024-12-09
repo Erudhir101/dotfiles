@@ -6,22 +6,31 @@ local key = vim.keymap -- for conciseness
 -- use jk to exit insert mode
 key.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
+key.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+key.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+key.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+key.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+
 -- delete single character without copying into register
 key.set("n", "x", '"_x', { desc = "delete without copy to buffer" })
 
-key.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move block of code to up" })
-key.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move block of code to down" })
+-- move lines
+key.set("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Down" })
+key.set("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Up" })
+key.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+key.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+key.set("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Down" })
+key.set("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Up" })
 
+-- cursor in the middle with move files
 key.set("n", "J", "mzJ`z", { desc = "put lines together" })
 key.set("n", "<C-d>", "<C-d>zz", { desc = "move code to down but the view in the center " })
 key.set("n", "<C-u>", "<C-u>zz", { desc = "move cod to up but the view in the center" })
 key.set("n", "n", "nzzzv", { desc = "move the selection code down but in the center" })
 key.set("n", "N", "Nzzzv", { desc = "move the selection code up but in the center" })
 
--- key.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "rename the register" })
-
 -- clear search highlights
-key.set("n", "<leader>.", ":nohl<CR>", { desc = "Clear search highlights" })
+key.set({ "i", "n" }, "<leader>.", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
 -- select all
 key.set("n", "<C-a>", "gg<S-v>G", { desc = "select all text" })

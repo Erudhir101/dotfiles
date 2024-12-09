@@ -1,25 +1,18 @@
 return {
 	"hrsh7th/nvim-cmp",
 	lazy = false,
-	priority = 100,
 	event = "InsertEnter",
 	dependencies = {
-		"L3MON4D3/LuaSnip",
-		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-nvim-lsp-signature-help",
-		"hrsh7th/cmp-nvim-lua",
+		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-path",
-		"onsails/lspkind-nvim",
-		"rafamadriz/friendly-snippets",
-		"saadparwaiz1/cmp_luasnip",
+		"hrsh7th/cmp-cmdline",
+		"L3MON4D3/LuaSnip",
 	},
 
 	config = function()
 		local cmp = require("cmp")
-		local lsp_kind = require("lspkind")
 
-		lsp_kind.init()
 		---@diagnostic disable-next-line
 		cmp.setup({
 			enabled = true,
@@ -54,13 +47,11 @@ return {
 				}),
 			},
 			sources = {
-				{ name = "nvim_lsp_signature_help", group_index = 1 },
-				{ name = "luasnip", max_item_count = 5, group_index = 1 },
-				{ name = "nvim_lsp", max_item_count = 20, group_index = 1 },
-				{ name = "nvim_lua", group_index = 1 },
-				{ name = "vim-dadbod-completion", group_index = 1 },
-				{ name = "path", group_index = 2 },
-				{ name = "buffer", keyword_length = 2, max_item_count = 5, group_index = 2 },
+				{ name = "nvim_lsp" },
+				{ name = "luasnip" },
+				{ name = "nvim_lua" },
+				{ name = "buffer" },
+				{ name = "path" },
 			},
 		})
 	end,
