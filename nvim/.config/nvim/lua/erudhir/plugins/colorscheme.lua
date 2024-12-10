@@ -53,6 +53,7 @@ return {
 				return
 			end
 			catppuccin.setup({
+				transparent_background = true,
 				color_overrides = {
 					mocha = {
 						-- red = "#ef233c",
