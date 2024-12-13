@@ -11,6 +11,10 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 	},
 	config = function()
+		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+			border = "rounded", -- Rounded border for the hover window
+			focusable = false, -- Makes the hover window not steal focus
+		})
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 			callback = function(event)
@@ -19,26 +23,31 @@ return {
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 				map(
-					"<leader>gd",
+					"gd",
 					"<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>",
 					"[G]oto [D]efinition"
 				)
 				map(
-					"<leader>gr",
+					"gr",
 					"<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>",
 					"[G]oto [R]eferences"
 				)
 				map(
-					"<leader>gi",
+					"gi",
 					"<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>",
 					"[G]oto [I]mplementation"
 				)
 				map(
-					"<leader>ds",
+					"ds",
 					"<cmd>FzfLua lsp_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>",
 					"[D]ocument [S]ymbols"
 				)
 				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+
+				map("K", vim.lsp.buf.hover, "show information in hover")
+
+				map("[d", vim.diagnostic.goto_prev, "show previest diagnostic")
+				map("]d", vim.diagnostic.goto_next, "show next diagnostic")
 
 				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
@@ -66,11 +75,11 @@ return {
 					})
 				end
 
-				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-					map("<leader>th", function()
-						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
-					end, "[T]oggle Inlay [H]ints")
-				end
+				-- if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+				-- 	map("<leader>th", function()
+				-- 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+				-- 	end, "[T]oggle Inlay [H]ints")
+				-- end
 			end,
 		})
 
@@ -99,11 +108,8 @@ return {
 			html = { filetypes = { "html", "twig", "hbs" } },
 			cssls = {},
 			tailwindcss = {},
-			dockerls = {},
-			sqlls = {},
-			terraformls = {},
 			jsonls = {},
-			yamlls = {},
+			svelte = {},
 
 			lua_ls = {
 				settings = {
@@ -132,7 +138,7 @@ return {
 
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
-			"stylua", -- Used to format Lua code
+			"stylua",
 			"prettier",
 			"prettierd",
 		})
@@ -142,9 +148,6 @@ return {
 			handlers = {
 				function(server_name)
 					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for tsserver)
 					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 					require("lspconfig")[server_name].setup(server)
 				end,

@@ -37,6 +37,10 @@ return {
 			fzf.diagnostics_document()
 		end, { desc = "Find all diagnostics" })
 
+		keymap.set("n", ";D", function()
+			fzf.diagnostics_workspace()
+		end, { desc = "Find all diagnostics in workspace" })
+
 		keymap.set("n", ";b", function()
 			fzf.buffers()
 		end, { desc = "Find all buffers" })

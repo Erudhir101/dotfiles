@@ -25,6 +25,7 @@ return {
 				yaml = prettier,
 				markdown = prettier,
 				graphql = prettier,
+				sql = { "sql-formatter" },
 				lua = { "stylua" },
 				c = { "clang-format" },
 				-- rust = { "ast_grep" },
@@ -33,12 +34,12 @@ return {
 			format_on_save = {
 				lsp_fallback = true,
 				async = false,
-				timeout_ms = 1000,
+				timeout_ms = 1001,
 			},
 			formatters = {
 				astyle = {
 					command = "astyle",
-					prepend_args = { "-s2", "-c", "-J", "-n", "-q", "-z2", "-xC80" },
+					prepend_args = { "-s3", "-c", "-J", "-n", "-q", "-z2", "-xC80" },
 				},
 				["clang-format"] = {
 					command = "clang-format",
@@ -56,13 +57,19 @@ return {
 					command = "prettierd",
 					prepend_args = { "-w" },
 				},
+				["sql-formatter"] = {
+					command = "sql-formatter",
+					prepend_args = {
+						"--language=postgresql",
+					},
+				},
 			},
 		})
 		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
 			conform.format({
 				lsp_fallback = true,
 				async = false,
-				timeout_ms = 1000,
+				timeout_ms = 1001,
 			})
 		end, { desc = "Format file or range (in visual mode)" })
 	end,
