@@ -292,9 +292,9 @@ for group in groups:
         ]
     )
 
-colors = colorsType.Dracula
+colors = colorsType.DoomOne
+
 layout_theme = {
-    "border_width": 2,
     "margin": 8,
     "border_focus": colors[7],
     "border_normal": colors[2],
@@ -318,7 +318,7 @@ layouts = [
 
 
 widget_defaults = dict(
-    font="Hack Nerd Font Bold", fontsize=12, padding=0, background=colors[2]
+    font="JetBrains Mono SemiBold", fontsize=16, padding=4, background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
 
@@ -329,14 +329,12 @@ def init_widgets_list():
         widget.GroupBox(
             margin_y=5,
             margin_x=5,
-            padding_y=0,
-            padding_x=1,
-            borderwidth=2,
-            active=colors[8],
+            actve=colors[8],
             inactive=colors[1],
-            rounded=False,
             highlight_color=colors[2],
-            highlight_method="line",
+            highlight_method="text",
+            urgent_alert_method="text",
+            urgent_text=colors[3],
             this_current_screen_border=colors[7],
             this_screen_border=colors[4],
             other_current_screen_border=colors[7],
@@ -381,77 +379,40 @@ def init_widgets_list():
         widget.ThermalSensor(
             format="{temp: .0f}{unit}",
             update_interval=5.0,
-            decorations=[
-                BorderDecoration(
-                    colour=colors[1],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
         widget.Spacer(length=16),
         widget.CPU(
             # format="CPU: {freq_current}GHz/{load_percent}%",
-            format="CPU:{load_percent}%",
+            # format="CPU:{load_percent}%",
+            format="⏲ {load_percent}%",
             update_interval=5.0,
             foreground=colors[8],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[8],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
         widget.Spacer(length=16),
         widget.Memory(
             # format="{MemUsed: .0f}{mm}|{MemTotal: .0f}{mm}",
-            format="{MemPercent}%",
+            format=" {MemPercent}%",
             measure_mem="G",
-            fmt="MEM:{}",
             update_interval=5.0,
             foreground=colors[7],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[7],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
         widget.Spacer(length=16),
         widget.Volume(
-            # emoji_list=["", "", "", ""],
-            # emoji=True,
-            fmt="Vol:{}",
-            foreground=colors[1],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[4],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
+            unmute_format="  {volume}%",
+            mute_format="  0%",
+            foreground=colors[4],
         ),
         widget.Spacer(length=16),
         widget.KeyboardLayout(
             configured_keyboards=["us intl", "us"],
             fmt="⌨ {}",
             foreground=colors[5],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[5],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
         widget.Spacer(length=16),
         widget.UPowerWidget(
             battery_width=25,
             battery_height=10,
             foreground=colors[4],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[4],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
         widget.Spacer(length=16),
         widget.Backlight(
@@ -460,40 +421,15 @@ def init_widgets_list():
             step=5,
             change_command="xbacklight -set {0}",
             foreground=colors[7],
-            decorations=[
-                BorderDecoration(
-                    colour=colors[7],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
-        # widget.Spacer(length=16),
-        # widget.Wlan(
-        #     format="  '{essid}' {percent:2.0%}",
-        #     foreground=colors[4],
-        #     decorations=[
-        #         BorderDecoration(
-        #             colour=colors[4],
-        #             border_width=[0, 0, 2, 0],
-        #         )
-        #     ],
-        # ),
         widget.Spacer(length=16),
         widget.Clock(
             foreground=colors[8],
             format="⏱ %a,%d/%m/%y - %H:%M:%S",
-            decorations=[
-                BorderDecoration(
-                    colour=colors[8],
-                    border_width=[0, 0, 2, 0],
-                )
-            ],
         ),
         widget.Spacer(length=8),
         widget.Systray(
             padding=5,
-            # background=colors[8],
-            # foreground=colors[4],
         ),
         widget.Spacer(length=3),
     ]
@@ -518,7 +454,14 @@ def init_widgets_screen2():
 
 def init_screens():
     return [
-        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=26)),
+        Screen(
+            top=bar.Bar(
+                widgets=init_widgets_screen1(),
+                size=26,
+                margin=[8, 8, 0, 8],
+                background=colors[0],
+            )
+        ),
         Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
     ]
 
