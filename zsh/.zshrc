@@ -66,6 +66,7 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export EDITOR="nvim"
 export VISUAL="nvim"
+export MANPAGER="nvim +Man!"
 
 # function y() {
 # 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
