@@ -164,7 +164,7 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+c reload
 
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Control+r restart
 
 # resize window (you can also use the mouse for that)
 # mode "resize" {
@@ -193,11 +193,15 @@ bindsym $mod+Shift+r restart
 
 # bindsym $mod+r mode "resize"
 
-bindsym $mod+Control h exec python ./scripts/size.py left 50
-bindsym $mod+Control j exec python ./scripts/size.py down 50
-bindsym $mod+Control k exec python ./scripts/size.py up 50
-bindsym $mod+Control l exec python ./scripts/size.py right 50
+# bindsym $mod+Control h exec python ./scripts/size.py left 50
+# bindsym $mod+Control j exec python ./scripts/size.py down 50
+# bindsym $mod+Control k exec python ./scripts/size.py up 50
+# bindsym $mod+Control l exec python ./scripts/size.py right 50
 
+bindsym $mod+Control h resize shrink width 10 px or 10 ppt
+bindsym $mod+Control j resize shrink height 10 px or 10 ppt
+bindsym $mod+Control k resize grow height 10 px or 10 ppt
+bindsym $mod+Control l resize grow width 10 px or 10 ppt
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -276,3 +280,6 @@ client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
 client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
 client.background        $base
+
+
+for_window [class="Yad" title="yad-calendar"] floating enable

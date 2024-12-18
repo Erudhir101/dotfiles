@@ -159,13 +159,13 @@ keys = [
     # Key([mod], "x", lazy.logout(), desc="Logout menu"),
     Key(
         [mod],
-        "f",
+        "f11",
         lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
     Key(
         [mod],
-        "t",
+        "f",
         lazy.window.toggle_floating(),
         desc="Toggle floating on the focused window",
     ),
@@ -210,19 +210,6 @@ keys = [
     ),
     Key([], "Print", lazy.spawn("flameshot gui"), desc="PrintScreen in Qtile"),
 ]
-
-# Add key bindings to switch VTs in Wayland.
-# We can't check qtile.core.name in default config as it is loaded before qtile is started
-# We therefore defer the check until the key binding is run by using .when(func=...)
-# for vt in range(1, 8):
-#     keys.append(
-#         Key(
-#             ["control", "mod1"],
-#             f"f{vt}",
-#             lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
-#             desc=f"Switch to VT{vt}",
-#         )
-#     )
 
 groups = []
 group_names = [
@@ -295,7 +282,7 @@ for group in groups:
 colors = colorsType.DoomOne
 
 layout_theme = {
-    "margin": 8,
+    "margin": 4,
     "border_focus": colors[7],
     "border_normal": colors[2],
 }
@@ -349,7 +336,6 @@ def init_widgets_list():
         widget.CurrentLayoutIcon(
             # custom_icon_paths = [os.path.expanduser("~/.config/qtile/icons")],
             foreground=colors[1],
-            padding=4,
             scale=0.6,
         ),
         widget.CurrentLayout(foreground=colors[1], padding=4),
@@ -357,41 +343,25 @@ def init_widgets_list():
             text="|",
             font="Hack Nerd Font",
             foreground=colors[1],
-            padding=2,
         ),
         widget.Spacer(length=8),
         widget.WindowName(foreground=colors[5], max_chars=60),
-        # widget.GenPollText(
-        #     update_interval=300,
-        #     func=lambda: subprocess.check_output(
-        #         "printf $(uname -r)", shell=True, text=True
-        #     ),
-        #     foreground=colors[3],
-        #     fmt="❤  {}",
-        #     decorations=[
-        #         BorderDecoration(
-        #             colour=colors[3],
-        #             border_width=[0, 0, 2, 0],
-        #         )
-        #     ],
-        # ),
-        # widget.Spacer(length=16),
         widget.ThermalSensor(
-            format="{temp: .0f}{unit}",
+            format=" {temp: .0f}{unit}",
             update_interval=5.0,
         ),
         widget.Spacer(length=16),
         widget.CPU(
             # format="CPU: {freq_current}GHz/{load_percent}%",
             # format="CPU:{load_percent}%",
-            format="⏲ {load_percent}%",
+            format="  {load_percent}%",
             update_interval=5.0,
             foreground=colors[8],
         ),
         widget.Spacer(length=16),
         widget.Memory(
             # format="{MemUsed: .0f}{mm}|{MemTotal: .0f}{mm}",
-            format=" {MemPercent}%",
+            format="  {MemPercent}%",
             measure_mem="G",
             update_interval=5.0,
             foreground=colors[7],
@@ -401,6 +371,9 @@ def init_widgets_list():
             unmute_format="  {volume}%",
             mute_format="  0%",
             foreground=colors[4],
+            mouse_callbacks={
+                "Button2": lazy.spawn("pavucontrol"),
+            },
         ),
         widget.Spacer(length=16),
         widget.KeyboardLayout(
@@ -457,12 +430,12 @@ def init_screens():
         Screen(
             top=bar.Bar(
                 widgets=init_widgets_screen1(),
-                size=26,
-                margin=[8, 8, 0, 8],
+                size=32,
+                margin=[0, 8, 0, 8],
                 background=colors[0],
             )
         ),
-        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=26)),
+        Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=32)),
     ]
 
 
