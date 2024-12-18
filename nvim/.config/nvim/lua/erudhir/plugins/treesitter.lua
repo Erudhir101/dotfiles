@@ -19,7 +19,7 @@ return {
 				autotag = { enable = true },
 				ensure_installed = {
 					"bash",
-          "cpp",
+					"cpp",
 					"c",
 					"css",
 					"dockerfile",
