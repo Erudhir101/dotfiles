@@ -3,7 +3,7 @@
 # For ex: colors = [["#282c34ee", "#282c34dd"], ...
 
 DoomOne = [
-    ["#282c34", "#282c34"],  # bg
+    ["#3a3f4a", "#3a3f4a"],  # bg
     ["#bbc2cf", "#bbc2cf"],  # fg
     ["#1c1f24", "#1c1f24"],  # color01
     ["#ff6c6b", "#ff6c6b"],  # color02
@@ -119,4 +119,16 @@ TomorrowNight = [
     ["#81a2be", "#81a2be"],  # color05
     ["#b294bb", "#b294bb"],  # color06
     ["#70c0ba", "#70c0ba"],  # color15
+]
+
+RosePine = [
+    ["#191724", "#191724"],  # bg
+    ["#fffaf3", "#fffaf3"],  # fg
+    ["#232136", "#232136"],  # color01
+    ["#eb6f92", "#eb6f92"],  # color02
+    ["#31748f", "#31748f"],  # color03
+    ["#ea9d34", "#ea9d34"],  # color04
+    ["#56949f", "#56949f"],  # color05
+    ["#c4a7e7", "#c4a7e7"],  # color06
+    ["#d7827e", "#d7827e"],  # color15
 ]

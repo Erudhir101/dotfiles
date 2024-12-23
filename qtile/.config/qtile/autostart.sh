@@ -1,6 +1,6 @@
 #!/bin/sh
 autorandr --change &
-feh --bg-scale /mnt/Backup/Documents/Images/painting.jpg
+feh --bg-scale /mnt/Backup/Documents/Images/'8bits CyberPunk'.png
 picom -b --config ~/.config/picom/picom.conf &
 dunst &
 blueman-applet &

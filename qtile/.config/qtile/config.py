@@ -35,7 +35,6 @@ from libqtile.lazy import lazy
 from qtile_extras import widget
 
 # from qtile_extras.widget import decorations
-from qtile_extras.widget.decorations import BorderDecoration  # , RectDecoration
 
 # from qtile_extras.widget import StatusNotifier
 import colors as colorsType
@@ -143,7 +142,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
         "p",
@@ -279,7 +278,7 @@ for group in groups:
         ]
     )
 
-colors = colorsType.DoomOne
+colors = colorsType.Dracula
 
 layout_theme = {
     "margin": 4,
@@ -305,7 +304,7 @@ layouts = [
 
 
 widget_defaults = dict(
-    font="JetBrains Mono SemiBold", fontsize=16, padding=4, background=colors[2]
+    font="JetBrains Mono SemiBold", fontsize=14, padding=4, background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
 
@@ -317,7 +316,7 @@ def init_widgets_list():
             margin_y=5,
             margin_x=5,
             actve=colors[8],
-            inactive=colors[1],
+            inactive=colors[0],
             highlight_color=colors[2],
             highlight_method="text",
             urgent_alert_method="text",
@@ -345,7 +344,7 @@ def init_widgets_list():
             foreground=colors[1],
         ),
         widget.Spacer(length=8),
-        widget.WindowName(foreground=colors[5], max_chars=60),
+        widget.WindowName(foreground=colors[4], max_chars=60),
         widget.ThermalSensor(
             format=" {temp: .0f}{unit}",
             update_interval=5.0,
@@ -372,7 +371,7 @@ def init_widgets_list():
             mute_format="  0%",
             foreground=colors[4],
             mouse_callbacks={
-                "Button2": lazy.spawn("pavucontrol"),
+                "Button3": lazy.spawn("pavucontrol"),
             },
         ),
         widget.Spacer(length=16),
@@ -399,6 +398,9 @@ def init_widgets_list():
         widget.Clock(
             foreground=colors[8],
             format="⏱ %a,%d/%m/%y - %H:%M:%S",
+            mouse_callbacks={
+                "Button1": lazy.spawn("/home/erudhir/dotfiles/scripts/popupCalendar.sh")
+            },
         ),
         widget.Spacer(length=8),
         widget.Systray(
@@ -427,14 +429,7 @@ def init_widgets_screen2():
 
 def init_screens():
     return [
-        Screen(
-            top=bar.Bar(
-                widgets=init_widgets_screen1(),
-                size=32,
-                margin=[0, 8, 0, 8],
-                background=colors[0],
-            )
-        ),
+        Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=32)),
         Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=32)),
     ]
 

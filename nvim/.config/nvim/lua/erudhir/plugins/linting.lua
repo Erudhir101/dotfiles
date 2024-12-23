@@ -8,12 +8,14 @@ return {
 			return
 		end
 
+		local eslint = { "eslint_d" }
+
 		lint.linters_by_ft = {
-			javascript = { "eslint_d" },
-			typescript = { "eslint_d" },
-			javascriptreact = { "eslint_d" },
-			typescriptreact = { "eslint_d" },
-			svelte = { "eslint_d" },
+			javascript = eslint,
+			typescript = eslint,
+			javascriptreact = eslint,
+			typescriptreact = eslint,
+			svelte = eslint,
 			python = { "pylint" },
 			-- rust = { "ast_grep" },
 			-- c = { "ast_grep" },
@@ -28,7 +30,7 @@ return {
 			end,
 		})
 
-		vim.keymap.set("n", "<leader>l", function()
+		vim.keymap.set("n", "<leader>lt", function()
 			lint.try_lint()
 		end, { desc = "Trigger linting for current file" })
 	end,
