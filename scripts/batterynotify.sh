@@ -1,39 +1,36 @@
-#!/bin/sh
+#!/bin/bash
 
-# Send a notification if the laptop battery is either low or is fully charged.
-# Set on a systemd timer (~/.config/systemd/user/battery-alert.timer).
-
+# Set display for notifications
 export DISPLAY=:0
-export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
 
-# Battery percentage at which to notify
-WARNING_LEVEL=20
-CRITICAL_LEVEL=5
-BATTERY_DISCHARGING=$(acpi -b | grep "Battery 0" | grep -c "Discharging")
-BATTERY_LEVEL=$(acpi -b | grep "Battery 0" | grep -P -o '[0-9]+(?=%)')
+# Configuration
+LOW_BATTERY_LEVEL=25
+FULL_BATTERY_LEVEL=80
+CRITICAL_BATTERY_LEVEL=10
+NOTIFICATION_TIMEOUT=10000
+NOTIFICATION_ID=2593
 
-# Use files to store whether we've shown a notification or not (to prevent multiple notifications)
-FULL_FILE=/tmp/batteryfull
-EMPTY_FILE=/tmp/batteryempty
-CRITICAL_FILE=/tmp/batterycritical
+# Get battery percentage
+BATTERY_LEVEL=$(acpi -b | grep -P -o '[0-9]+(?=%)')
 
-# Reset notifications if the computer is charging/discharging
-if [ "$BATTERY_DISCHARGING" -eq 1 ] && [ -f $FULL_FILE ]; then
-	rm $FULL_FILE
-elif [ "$BATTERY_DISCHARGING" -eq 0 ] && [ -f $EMPTY_FILE ]; then
-	rm $EMPTY_FILE
+# Get charging status
+CHARGING=$(acpi -b | grep -c "Charging")
+
+# Check if battery level was obtained successfully
+if [ -n "$BATTERY_LEVEL" ]; then
+    # Check for low battery
+    if [ "$BATTERY_LEVEL" -le "$CRITICAL_BATTERY_LEVEL" ] && [ "$CHARGING" -eq 0 ]; then
+        dunstify -u critical -r "$NOTIFICATION_ID" -t "$NOTIFICATION_TIMEOUT" \
+            "Critical Battery Warning!" "Battery level is ${BATTERY_LEVEL}%\nPlease connect charger immediately!"
+    elif [ "$BATTERY_LEVEL" -le "$LOW_BATTERY_LEVEL" ] && [ "$CHARGING" -eq 0 ]; then
+        dunstify -u normal -r "$NOTIFICATION_ID" -t "$NOTIFICATION_TIMEOUT" \
+            "Low Battery Warning" "Battery level is ${BATTERY_LEVEL}%"
+    fi
+    
+    # Check for full battery while charging
+    if [ "$BATTERY_LEVEL" -ge "$FULL_BATTERY_LEVEL" ] && [ "$CHARGING" -eq 1 ]; then
+        dunstify -u normal -r "$NOTIFICATION_ID" -t "$NOTIFICATION_TIMEOUT" \
+            "Battery Full" "Battery level is ${BATTERY_LEVEL}%\nYou can unplug the charger"
+    fi
 fi
-
-# If the battery is charging and is full (and has not shown notification yet)
-if [ "$BATTERY_LEVEL" -gt 99 ] && [ "$BATTERY_DISCHARGING" -eq 0 ] && [ ! -f $FULL_FILE ]; then
-	notify-send "Battery Charged" "Battery is fully charged." -i "battery" -r 9991
-	touch $FULL_FILE
-	# If the battery is low and is not charging (and has not shown notification yet)
-elif [ "$BATTERY_LEVEL" -le $WARNING_LEVEL ] && [ "$BATTERY_DISCHARGING" -eq 1 ] && [ ! -f $EMPTY_FILE ]; then
-	notify-send "Low Battery" "${BATTERY_LEVEL}% of battery remaining." -u critical -i "battery-alert" -r 9991
-	touch $EMPTY_FILE
-	# If the battery is critical and is not charging (and has not shown notification yet)
-elif [ "$BATTERY_LEVEL" -le $CRITICAL_LEVEL ] && [ "$BATTERY_DISCHARGING" -eq 1 ] && [ ! -f $CRITICAL_FILE ]; then
-	notify-send "Battery Critical" "The computer will shutdown soon." -u critical -i "battery-alert" -r 9991
-	touch $CRITICAL_FILE
-	fi
