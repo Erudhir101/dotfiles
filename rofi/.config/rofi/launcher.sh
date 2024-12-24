@@ -2,4 +2,4 @@
 ## Run
 rofi \
     -show drun \
-    -theme ./myTheme.rasi
+    -theme ./theme.rasi
