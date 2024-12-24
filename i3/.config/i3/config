@@ -106,7 +106,7 @@ bindsym $mod+Shift+Right move right
 bindsym $mod+semicolon split toggle
 
 # enter fullscreen mode for the focused container
-bindsym $mod+F11 fullscreen toggle
+bindsym F11 fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+Shift+question layout toggle all

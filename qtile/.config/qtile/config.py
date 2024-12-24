@@ -152,7 +152,8 @@ keys = [
     Key(
         [mod, "shift"],
         "p",
-        lazy.spawn("/home/erudhir/.config/rofi/powermenu.sh"),
+        # lazy.spawn("/home/erudhir/.config/rofi/powermenu.sh"),
+        lazy.spawn("/home/erudhir/.config/rofi/power-menu.sh"),
         desc="Run Launcher",
     ),
     # Key([mod], "x", lazy.logout(), desc="Logout menu"),
