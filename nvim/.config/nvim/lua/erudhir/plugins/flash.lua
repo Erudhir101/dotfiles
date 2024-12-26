@@ -2,7 +2,24 @@ return {
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
-		opts = { modes = { search = { enabled = false } } },
+		config = function()
+			local status, flash = pcall(require, "flash")
+			if not status then
+				return
+			end
+			flash.setup({
+				labels = "1234567890",
+				modes = {
+					search = {
+						enabled = true,
+					},
+				},
+				char = {
+					enabled = false,
+				},
+			})
+		end,
+
 		keys = {
 			{
 				"s",
