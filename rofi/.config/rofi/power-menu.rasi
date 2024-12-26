@@ -16,7 +16,7 @@ window {
   width:                    200px;
   border:                   2px;
   border-radius:            10px;
-  border-color:             @main-br;
+  border-color:             @main-fg;
   background-color:         @main-bg;
   children:                 [ mainbox ];
 }

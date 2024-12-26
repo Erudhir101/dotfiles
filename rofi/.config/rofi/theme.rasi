@@ -26,7 +26,7 @@ configuration {
   spacing: 0;
 
   main-bg:        #11111b;
-  main-fg:        #cdd6f4;
+  main-fg:        #fafafa;
   main-br:        #9399b2;
   input-bg:       #181825;
   select-bg:      #9399b2;
@@ -37,7 +37,7 @@ configuration {
   fg:             #FFFFFF;
   fg-alt:         #424242;
 
-  background-color: @bg;
+  background-color: @main-bg;
   text-color: @fg;
 }
 
@@ -46,7 +46,7 @@ window {
   width:                    300px;
   border:                   2px;
   border-radius:            10px;
-  border-color:             @main-br;
+  border-color:             @main-fg;
   background-color:         @main-bg;
 }
 
