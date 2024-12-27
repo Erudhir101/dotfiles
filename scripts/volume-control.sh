@@ -18,15 +18,15 @@ EOF
 
 send_notification() {
   vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | sed 's/%//')
-  notify-send -r 91190 "Volume: ${vol}%"
+  notify-send -r 91190 -t 1000 "Volume: ${vol}%"
 }
 
 notify_mute() {
   mute=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}')
   if [ "${mute}" = "yes" ]; then
-    notify-send -r 91190 "Muted"
+    notify-send -r 91190 -t 1000 "Muted"
   else
-    notify-send -r 91190 "Unmuted"
+    notify-send -r 91190 -t 1000 "Unmuted"
   fi
 }
 
@@ -36,7 +36,7 @@ action_volume() {
     # Check current volume and increase only if below 100
     current_vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | sed 's/%//')
     if [ "$current_vol" -lt 100 ]; then
-      new_vol=$((current_vol + 2))
+      new_vol=$((current_vol + 5))
       if [ "$new_vol" -gt 100 ]; then
         new_vol=100
       fi
@@ -46,7 +46,7 @@ action_volume() {
   d)
     # Decrease volume, ensuring it doesn't drop below 0%
     current_vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}' | sed 's/%//')
-    new_vol=$((current_vol - 2))
+    new_vol=$((current_vol - 5))
     if [ "$new_vol" -lt 0 ]; then
       new_vol=0
     fi

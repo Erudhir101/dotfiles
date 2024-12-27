@@ -43,6 +43,8 @@ case "$selected_option" in
 				qdbus org.kde.ksmserver /KSMServer logout 0 0 0
 			elif [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
         hyprctl dispatch exit 0
+			elif [[ "$DESKTOP_SESSION" == 'dwm' ]]; then
+       pkill -KILL -u $USER 
 			fi
   ;;
 esac
