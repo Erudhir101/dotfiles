@@ -124,18 +124,24 @@ return {
 			nerd_font_variant = "mono",
 		},
 		sources = {
-			-- add lazydev to your completion providers
-			completion = {
-				enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
-			},
-			providers = {
-				lsp = { fallback_for = { "lazydev" } },
-				lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
-			},
+        -- add lazydev to your completion providers
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            -- make lazydev completions top priority (see `:h blink.cmp`)
+            score_offset = 100,
+        },
+      }, 
 		},
 		signature = { enabled = true },
 		completion = {
+      
 			menu = {
+        auto_show = function (ctx)
+          return ctx.mode ~= "cmdline"
+        end,
 				border = "rounded",
 				draw = {
 					columns = { { "label", "label_description", gap = 1 }, { "kind" } },
