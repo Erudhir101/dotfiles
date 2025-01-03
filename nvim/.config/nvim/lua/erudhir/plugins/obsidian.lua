@@ -10,8 +10,7 @@ return {
 		workspaces = {
 			{
 				name = "personal",
-				path = "/mnt/Backup/Documents/study/erudhirVault",
-				-- path = "/mnt/d/Documents/study/erudhirVault",
+				path = "/mnt/backup/Documents/study/erudhirVault",
 			},
 		},
 	},
