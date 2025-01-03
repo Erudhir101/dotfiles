@@ -11,8 +11,8 @@ return {
 		fzf.setup({})
 
 		--keymaps from ui
-		fzf.config.defaults.keymap.fzf["ctrl-p"] = "half-page-up"
-		fzf.config.defaults.keymap.fzf["ctrl-n"] = "half-page-down"
+		fzf.config.defaults.keymap.fzf["ctrl-u"] = "half-page-up"
+		fzf.config.defaults.keymap.fzf["ctrl-d"] = "half-page-down"
 
 		-- set keymaps
 		local keymap = vim.keymap -- for conciseness

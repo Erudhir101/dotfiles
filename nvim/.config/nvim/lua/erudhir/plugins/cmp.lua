@@ -105,43 +105,42 @@
 -- 		})
 -- 	end,
 -- }
-
 return {
 	"saghen/blink.cmp",
 	event = "VeryLazy",
-	dependencies = "rafamadriz/friendly-snippets",
+	dependencies = { "rafamadriz/friendly-snippets" },
 	version = "v0.*",
 	opts = {
 		keymap = {
-			preset = "enter",
-			["<C-j>"] = { "select_next", "fallback" },
-			["<C-k>"] = { "select_prev", "fallback" },
-			["<C-p>"] = { "scroll_documentation_up", "fallback" },
-			["<C-n>"] = { "scroll_documentation_down", "fallback" },
+			preset = "default",
+			["<C-i>"] = { "accept", "fallback" },
 		},
 		appearance = {
 			use_nvim_cmp_as_default = true,
 			nerd_font_variant = "mono",
 		},
 		sources = {
-        -- add lazydev to your completion providers
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            -- make lazydev completions top priority (see `:h blink.cmp`)
-            score_offset = 100,
-        },
-      }, 
+			default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+			cmdline = function()
+				local type = vim.fn.getcmdtype()
+				if type == "/" or type == "?" then
+					return { "buffer" }
+				elseif type == ":" then
+					return { "cmdline" }
+				end
+			end,
+			providers = {
+				lazydev = {
+					name = "LazyDev",
+					module = "lazydev.integrations.blink",
+					score_offset = 100,
+				},
+			},
 		},
 		signature = { enabled = true },
 		completion = {
-      
 			menu = {
-        auto_show = function (ctx)
-          return ctx.mode ~= "cmdline"
-        end,
+				auto_show = true,
 				border = "rounded",
 				draw = {
 					columns = { { "label", "label_description", gap = 1 }, { "kind" } },
