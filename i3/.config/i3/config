@@ -23,7 +23,7 @@ for_window [class=".*"] border pixel 2
 # for_window [class=".*"] title_format "<span display='none'>%title</span>"
 
 #Gaps
-gaps inner 10
+gaps inner 5
 gaps outer 5
 
 # Start XDG autostart .desktop files using dex. See also
@@ -41,16 +41,19 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 set $refresh_i3status killall -SIGUSR1 i3status
 
 # brightness
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec /home/erudhir/scripts/brightness-control.sh -o i 
+bindsym XF86MonBrightnessDown exec /home/erudhir/scripts/brightness-control.sh -o d 
 
 # Pipewire-pulse
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
-bindsym XF86AudioMute --release exec pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
-bindsym XF86AudioLowerVolume --release exec pkill -RTMIN+1 i3blocks
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
-bindsym XF86AudioRaiseVolume --release exec pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+# bindsym XF86AudioMute --release exec pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+# bindsym XF86AudioLowerVolume --release exec pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+# bindsym XF86AudioRaiseVolume --release exec pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec ~/scripts/volume-control.sh m
+bindsym XF86AudioLowerVolume exec ~/scripts/volume-control.sh d
+bindsym XF86AudioRaiseVolume exec ~/scripts/volume-control.sh i
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -73,7 +76,7 @@ bindsym $mod+q kill
 
 # start rofi (a program launcher)
 bindsym $mod+p exec --no-startup-id /home/erudhir/.config/rofi/launcher.sh 
-bindsym $mod+shift+p exec --no-startup-id /home/erudhir/.config/rofi/powermenu.sh
+bindsym $mod+shift+p exec --no-startup-id /home/erudhir/.config/rofi/power-menu.sh
 
 #print screen
 bindsym --release Print exec "flameshot gui"
@@ -112,7 +115,7 @@ bindsym F11 fullscreen toggle
 bindsym $mod+Shift+question layout toggle all
 
 # toggle tiling / floating
-bindsym $mod+Shift+f floating toggle
+bindsym $mod+f floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -235,7 +238,7 @@ bindsym $mod+Control l resize grow width 10 px or 10 ppt
 
 exec_always --no-startup-id autotiling 
 exec_always --no-startup-id autorandr --change 
-exec_always --no-startup-id feh --bg-fill /mnt/Backup/Documents/Images/painting.jpg 
+exec_always --no-startup-id feh --bg-fill /mnt/backup/Documents/Images/painting.jpg 
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
 exec_always --no-startup-id ~/.config/polybar/launch.sh 
 exec_always --no-startup-id libinput-gestures-setup start
