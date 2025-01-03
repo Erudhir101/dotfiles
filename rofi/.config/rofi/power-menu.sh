@@ -5,15 +5,16 @@ config="$HOME/.config/rofi/power-menu.rasi"
 actions=$(echo -e "  Lock\n  Shutdown\n  Reboot\n$(printf '\u200A')  Suspend\n  Hibernate\n  Logout")
 
 # Display logout menu
-selected_option=$(echo -e "$actions" | rofi -dmenu -i -config "${config}")
+selected_option=$(echo -e "$actions" | rofi -dmenu -i -theme "${config}")
 
 # Perform actions based on the selected option
 case "$selected_option" in
 *Lock)
       if [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
-			betterlockscreen -l
+			betterlockscreen -l blur
 			elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-			i3lock
+			# i3lock --image /mnt/backup/Documents/Images/womanincamp.png --show-failed-attempts
+			betterlockscreen -l blur
 			elif [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
         hyprlock
 			fi
