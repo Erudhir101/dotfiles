@@ -1,7 +1,7 @@
 # apps para instalar
 
 ```bash
-sudo yay -S base-devel ntfs-3g picom neovim brightnessctl bluez bluz-utils blueman git lazygit github-cli nodejs npm rofi autorandr sof-firmware xclip unzip intel-ucode vlc python3 zoxide zsh eza fzf ufw stow discord firefox kitty ttf-hack-nerd
+sudo yay -S base-devel ntfs-3g picom neovim lxappearance brightnessctl bluez bluz-utils blueman git lazygit github-cli nodejs npm rofi autorandr sof-firmware xclip unzip intel-ucode vlc python3 zoxide zsh eza fzf ufw stow discord firefox kitty ttf-hack-nerd
 ```
 
 ## para reconhecer o disco backup (sda1)
