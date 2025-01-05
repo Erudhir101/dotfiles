@@ -65,9 +65,9 @@ eval "$(starship init zsh)"
 
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
-export EDITOR="nvim"
-export VISUAL="nvim"
-export MANPAGER="nvim +Man!"
+export EDITOR="nvim -u $HOME/.config/nvim/init.lua"
+export VISUAL="nvim -u $HOME/.config/nvim/init.lua"
+export MANPAGER="nvim -u $HOME/.config/nvim/init.lua +Man!"
 
 # function y() {
 # 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
