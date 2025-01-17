@@ -11,10 +11,12 @@ selected_option=$(echo -e "$actions" | rofi -dmenu -i -theme "${config}")
 case "$selected_option" in
 *Lock)
       if [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
-			betterlockscreen -l blur
+		  	betterlockscreen -l blur
+			elif [[ "$DESKTOP_SESSION" == 'sway' ]]; then
+        swaylock
 			elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
 			# i3lock --image /mnt/backup/Documents/Images/womanincamp.png --show-failed-attempts
-			betterlockscreen -l blur
+		  	betterlockscreen -l blur
 			elif [[ "$DESKTOP_SESSION" == 'hyprland' ]]; then
         hyprlock
 			fi
@@ -46,6 +48,8 @@ case "$selected_option" in
         hyprctl dispatch exit 0
 			elif [[ "$DESKTOP_SESSION" == 'dwm' ]]; then
        pkill -KILL -u $USER 
+			elif [[ "$DESKTOP_SESSION" == 'sway' ]]; then
+       sway exit 
 			fi
   ;;
 esac
