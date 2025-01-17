@@ -4,6 +4,7 @@ return {
 	{
 		"3rd/image.nvim",
 		-- dependencies = { "luarocks.nvim" },
+		enabled = false,
 		ft = { "markdown", "vimwiki" },
 		config = function()
 			require("image").setup({
