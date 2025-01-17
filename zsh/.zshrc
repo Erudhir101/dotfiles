@@ -46,7 +46,7 @@ alias v='nvim'
 alias c='clear'
 alias g='git'
 alias lg='lazygit'
-alias zl='zellij'
+alias zj='zellij'
 alias fetch='fastfetch'
 
 
