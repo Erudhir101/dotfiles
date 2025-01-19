@@ -3,6 +3,7 @@
   border-radius: 4px;
   /* `ttf-font-awesome` is required to be installed for icons */
   font-family: "Hack Nerd Font", Helvetica, Arial, sans-serif;
+  font-weight: bold;
 
   /* adjust font-size value to your liking: */
   font-size: 12px;

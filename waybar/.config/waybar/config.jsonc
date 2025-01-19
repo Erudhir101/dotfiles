@@ -1,10 +1,10 @@
 {
   // "layer": "top", // Waybar at top layer
-  "position": "bottom", // Waybar position (top|bottom|left|right)
+  "position": "top", // Waybar position (top|bottom|left|right)
   "height": 5, // Waybar height (to be removed for auto height)
   // "width": 1280, // Waybar width
   // Choose the order of the modules
-  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-left": ["sway/workspaces"],
   "modules-center": ["sway/window"],
   "modules-right": [
     "pulseaudio",
@@ -13,7 +13,6 @@
     "cpu",
     "memory",
     "battery",
-    "battery#bat2",
     "clock",
     "tray",
   ],
@@ -25,7 +24,8 @@
   },
 
   "sway/mode": {
-    "format": "<span style=\"italic\">{}</span>",
+    "format": " {}",
+    "max-length": 50,
   },
 
   "tray": {
@@ -34,15 +34,38 @@
   },
   "clock": {
     "interval": 1,
-    "format": "{:%T}",
-    "format-alt": "{:%Y-%m-%d}",
+    "format": "{:%H:%M:%S}  ",
+    "format-alt": "{:%A, %d/%m/%y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ebbcba'><b>{}</b></span>",
+        "days": "<span color='#e0def4'><b>{}</b></span>",
+        "weeks": "<span color='#9ccfd8'><b>W{}</b></span>",
+        "weekdays": "<span color='#f6c177'><b>{}</b></span>",
+        "today": "<span color='#eb6f92'><b><u>{}</u></b></span>",
+      },
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "tz_up",
+      "on-scroll-down": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down",
+    },
   },
   "cpu": {
-    "format": "CPU {usage}% ",
+    "interval": 10,
+    "format": " {usage}%",
     "tooltip": false,
   },
   "memory": {
-    "format": "MEM {}% ",
+    "interval": 10,
+    "format": " {}%",
   },
   "temperature": {
     // "thermal-zone": 2,
@@ -58,38 +81,55 @@
     "format-icons": ["", ""],
   },
   "battery": {
+    "interval": 60,
     "states": {
       "good": 95,
       "warning": 30,
       "critical": 15,
     },
-    "format": "{capacity}% ",
-    "format-charging": "{capacity}%",
-    "format-plugged": "{capacity}%",
+    "format": "{icon} {capacity}%",
+    "format-charging": "{icon} {capacity}%",
+    "format-plugged": "{icon} {capacity}%",
     "format-alt": "{time} ",
     // "format-good": "", // An empty format will hide the module
     // "format-full": "",
     "format-icons": ["", "", "", "", ""],
   },
-  "battery#bat2": {
-    "bat": "BAT2",
-  },
   "network": {
-    // "interface": "wlp2*", // (Optional) To force the use of this interface
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+    "format-wifi": "  Wired ",
+    "format-ethernet": "  Wired ",
     "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected ",
+    "format-disconnected": " Unwired",
     "format-alt": "{ifname}: {ipaddr}/{cidr}",
   },
+  // "pulseaudio": {
+  //   // "scroll-step": 1, // %, can be a float
+  //   "format": "{volume}%  {format_source}",
+  //   "format-bluetooth": "{volume}%  {format_source}",
+  //   "format-bluetooth-muted": " {format_source}",
+  //   "format-muted": " {format_source}",
+  //   "format-source": "{volume}% ",
+  //   "format-source-muted": "",
+  //   "on-click": "pavucontrol",
+  // },
   "pulseaudio": {
-    // "scroll-step": 1, // %, can be a float
-    "format": "{volume}%  {format_source}",
-    "format-bluetooth": "{volume}%  {format_source}",
-    "format-bluetooth-muted": " {format_source}",
-    "format-muted": " {format_source}",
-    "format-source": "{volume}% ",
-    "format-source-muted": "",
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": {
+      "alsa_output.pci-0000_00_1f.3.analog-stereo": "",
+      "alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "",
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "phone-muted": "",
+      "portable": "",
+      "car": "",
+      "default": ["", ""],
+    },
+    "scroll-step": 1,
     "on-click": "pavucontrol",
+    "ignored-sinks": ["Easy Effects Sink"],
   },
 }
