@@ -52,6 +52,70 @@ return {
 		end,
 	},
 	{
+
+		"echasnovski/mini.surround",
+		version = false,
+		event = { "BufReadPre", "BufNewFile" },
+		config = function()
+			local status, surround = pcall(require, "mini.surround")
+			if not status then
+				return
+			end
+			surround.setup({
+				mappings = {
+					add = "<leader>sa", -- Add surrounding in Normal and Visual modes
+					delete = "<leader>sd", -- Delete surrounding
+					find = "", -- Find surrounding (to the right)
+					find_left = "", -- Find surrounding (to the left)
+					highlight = "", -- Highlight surrounding
+					replace = "<leader>sr", -- Replace surrounding
+					update_n_lines = "", -- Update `n_lines`
+
+					suffix_last = "", -- Suffix to search with "prev" method
+					suffix_next = "", -- Suffix to search with "next" method
+				},
+			})
+		end,
+	},
+	{
+		"echasnovski/mini.statusline",
+		version = false,
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"echasnovski/mini.icons",
+		},
+		config = function()
+			local status, line = pcall(require, "mini.statusline")
+			if not status then
+				return
+			end
+			line.setup({
+				content = {
+					active = function()
+						local mode, mode_hl = line.section_mode({ trunc_width = 120 })
+						local git = line.section_git({ trunc_width = 40 })
+						local diff = line.section_diff({ trunc_width = 75 })
+						local diagnostics = line.section_diagnostics({ trunc_width = 75 })
+						local lsp = line.section_lsp({ trunc_width = 75 })
+						local filename = line.section_filename({ trunc_width = 140 })
+						local fileinfo = line.section_fileinfo({ trunc_width = 120 })
+						local search = line.section_searchcount({ trunc_width = 75 })
+
+						return line.combine_groups({
+							{ hl = mode_hl, strings = { mode } },
+							{ hl = "MiniStatuslineDevinfo", strings = { git, diff, diagnostics, lsp } },
+							"%<", -- Mark general truncate point
+							{ hl = "MiniStatuslineFilename", strings = { filename } },
+							"%=", -- End left alignment
+							{ hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+							{ hl = mode_hl, strings = { search, "%P %l:%c" } },
+						})
+					end,
+				},
+			})
+		end,
+	},
+	{
 		"echasnovski/mini.files",
 		version = false,
 		event = "VeryLazy",
@@ -104,7 +168,7 @@ return {
 			---@type table<string, {symbol: string, hlGroup: string}>
 			---@param status string
 			---@return string symbol, string hlGroup
-			local function mapSymbols(status, is_symlink)
+			local function mapSymbols(stat, is_symlink)
 				local statusMap = {
     -- stylua: ignore start 
         [" M"] = { symbol = "✹", hlGroup  = "MiniDiffSignChange"}, -- Modified in the working directory
@@ -124,7 +188,7 @@ return {
 					-- stylua: ignore end
 				}
 
-				local result = statusMap[status] or { symbol = "?", hlGroup = "NonText" }
+				local result = statusMap[stat] or { symbol = "?", hlGroup = "NonText" }
 				local gitSymbol = result.symbol
 				local gitHlGroup = result.hlGroup
 
