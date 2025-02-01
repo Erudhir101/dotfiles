@@ -1,5 +1,6 @@
 return {
 	"brenoprata10/nvim-highlight-colors",
+	enabled = false,
 	event = "VeryLazy",
 	config = function()
 		local status, highlight = pcall(require, "nvim-highlight-colors")

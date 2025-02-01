@@ -22,6 +22,28 @@ return {
 		end,
 	},
 	{
+
+		"echasnovski/mini.hipatterns",
+		version = false,
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+		config = function()
+			local status, hi = pcall(require, "mini.hipatterns")
+			if not status then
+				return
+			end
+			hi.setup({
+				highlighters = {
+					-- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+					fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+					hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+					todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+					note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+					hex_color = hi.gen_highlighter.hex_color({ priority = 2000 }),
+				},
+			})
+		end,
+	},
+	{
 		"echasnovski/mini.bracketed",
 		version = false,
 		event = "VeryLazy",

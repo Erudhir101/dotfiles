@@ -143,6 +143,7 @@ return {
 			"stylua",
 			"prettier",
 			"prettierd",
+			"eslind_d",
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
