@@ -18,26 +18,26 @@ return {
 							icon = " ",
 							key = "f",
 							desc = "Find File",
-							action = ":lua Snacks.dashboard.pick('files')",
+							action = ":lua FzfLua.files()",
 						},
 						{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
 						{
 							icon = " ",
 							key = "g",
 							desc = "Find Text",
-							action = ":lua Snacks.dashboard.pick('live_grep')",
+							action = ":lua FzfLua.live_grep()",
 						},
 						{
 							icon = " ",
 							key = "r",
 							desc = "Recent Files",
-							action = ":lua Snacks.dashboard.pick('oldfiles')",
+							action = ":lua FzfLua.oldfiles()",
 						},
 						{
 							icon = " ",
 							key = "c",
 							desc = "Config",
-							action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+							action = ":lua FzfLua.files({cwd = vim.fn.stdpath('config')})",
 						},
 						{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
 						{
@@ -53,7 +53,7 @@ return {
 			},
 			indent = { enabled = true, animate = { enabled = false } },
 			input = { enabled = false },
-			picker = { enabled = false },
+			picker = { enabled = true, replace_netrw = true },
 			quickfile = { enabled = false },
 			scroll = { enabled = false },
 			statuscolumn = { enabled = false },
@@ -64,6 +64,10 @@ return {
 		vim.keymap.set("n", "<leader>lg", function()
 			snacks.lazygit()
 		end, { desc = "Lazygit open" })
+
+		vim.keymap.set("n", "<C-e>", function()
+			snacks.explorer()
+		end, { desc = "Open Explorer" })
 
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "MiniFilesActionRename",
