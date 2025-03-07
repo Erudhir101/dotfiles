@@ -1,9 +1,14 @@
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
-	init = function()
-		vim.o.timeout = true
-		vim.o.timeoutlen = 500
+	config = function()
+		local status, which = pcall(require, "which-key")
+		if not status then
+			return
+		end
+
+		which.setup({
+			preset = "helix",
+		})
 	end,
-	opts = {},
 }

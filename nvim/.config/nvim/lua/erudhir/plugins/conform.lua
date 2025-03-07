@@ -41,10 +41,10 @@ return {
 					command = "astyle",
 					prepend_args = { "-s3", "-c", "-J", "-n", "-q", "-z2", "-xC80" },
 				},
-				["clang-format"] = {
-					command = "clang-format",
-					prepend_args = { "--style=file", "-i" },
-				},
+				-- ["clang-format"] = {
+				-- 	command = "clang-format",
+				-- 	prepend_args = { "--style=file", "-i" },
+				-- },
 				["cmake-format"] = {
 					command = "cmake-format",
 					prepend_args = { "-i" },
@@ -65,7 +65,7 @@ return {
 				},
 			},
 		})
-		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
+		vim.keymap.set({ "n", "v" }, "<leader>cf", function()
 			conform.format({
 				lsp_fallback = true,
 				async = false,

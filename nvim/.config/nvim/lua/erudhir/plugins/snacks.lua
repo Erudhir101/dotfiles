@@ -52,7 +52,7 @@ return {
 				},
 			},
 			indent = { enabled = true, animate = { enabled = false } },
-			input = { enabled = false },
+			input = { enabled = true },
 			picker = { enabled = true, replace_netrw = true },
 			quickfile = { enabled = false },
 			scroll = { enabled = false },
