@@ -1,20 +1,45 @@
 return {
 	-- {
-	-- 	"rose-pine/neovim",
-	-- 	name = "rose-pine",
+	-- 	"rebelot/kanagawa.nvim",
+	-- 	name = "kanagawa",
 	-- 	priority = 1000,
 	-- 	lazy = false,
 	-- 	config = function()
-	-- 		local status, rose = pcall(require, "rose-pine")
+	-- 		local status, kanagawa = pcall(require, "kanagawa")
 	-- 		if not status then
 	-- 			return
 	-- 		end
 	--
-	-- 		rose.setup({})
+	-- 		kanagawa.setup({
+	-- 			compile = true,
+	-- 			theme = "dragon",
+	-- 			background = { dark = "dragon", light = "lotus" },
+	-- 		})
 	-- 		-- load the colorscheme here
-	-- 		vim.cmd("colorscheme rose-pine")
+	-- 		vim.cmd("colorscheme kanagawa")
 	-- 	end,
 	-- },
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
+		priority = 1000,
+		lazy = false,
+		config = function()
+			local status, rose = pcall(require, "rose-pine")
+			if not status then
+				return
+			end
+
+			rose.setup({
+				highlight_groups = {
+					CurSearch = { fg = "base", bg = "leaf", inherit = false },
+					Search = { fg = "text", bg = "leaf", blend = 20, inherit = false },
+				},
+			})
+			-- load the colorscheme here
+			vim.cmd("colorscheme rose-pine")
+		end,
+	},
 	-- {
 	-- 	"Mofiqul/dracula.nvim",
 	-- 	config = function()
@@ -33,7 +58,6 @@ return {
 	-- 	priority = 1000,
 	-- 	config = function()
 	-- 		local status, tokyonight = pcall(require, "tokyonight")
-	-- 		local colors = require("tokyonight.colors").setup()
 	-- 		if not status then
 	-- 			return
 	-- 		end
@@ -43,35 +67,35 @@ return {
 	-- 		vim.cmd([[colorscheme tokyonight]])
 	-- 	end,
 	-- },
-	{
-		"catppuccin/nvim",
-		lazy = false,
-		priority = 1000, -- make sure to load this before all the other start plugins
-		config = function()
-			local status, catppuccin = pcall(require, "catppuccin")
-			if not status then
-				return
-			end
-			catppuccin.setup({
-				transparent_background = true,
-				color_overrides = {
-					mocha = {
-						-- red = "#ef233c",
-						-- pink = "#ff007c",
-						-- peach = "#ff9e64",
-						-- green = "#4fd6be",
-						-- mauve = "#c77dff",
-						-- lavender = "#f4acb7",
-						-- blue = "#00b4d8",
-						-- base = "#000000",
-					},
-				},
-			})
-			-- load the colorscheme here
-			vim.cmd([[colorscheme catppuccin]])
-		end,
-	},
-	--
+	-- {
+	-- 	"catppuccin/nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		local status, catppuccin = pcall(require, "catppuccin")
+	-- 		if not status then
+	-- 			return
+	-- 		end
+	-- 		catppuccin.setup({
+	-- 			transparent_background = false,
+	-- 			color_overrides = {
+	-- 				mocha = {
+	-- 					-- red = "#ef233c",
+	-- 					-- pink = "#ff007c",
+	-- 					-- peach = "#ff9e64",
+	-- 					-- green = "#4fd6be",
+	-- 					-- mauve = "#c77dff",
+	-- 					-- lavender = "#f4acb7",
+	-- 					-- blue = "#00b4d8",
+	-- 					-- base = "#000000",
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 		-- load the colorscheme here
+	-- 		vim.cmd([[colorscheme catppuccin]])
+	-- 	end,
+	-- },
+
 	--
 	-- {
 	-- 	"craftzdog/solarized-osaka.nvim",

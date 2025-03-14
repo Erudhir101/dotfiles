@@ -1,5 +1,4 @@
 local border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
-local winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None"
 return {
 	"saghen/blink.cmp",
 	event = "VeryLazy",
@@ -8,7 +7,6 @@ return {
 	opts = {
 		keymap = { preset = "default", ["<C-i>"] = { "accept", "fallback" } },
 		appearance = {
-			use_nvim_cmp_as_default = true,
 			nerd_font_variant = "mono",
 		},
 		completion = {
@@ -16,7 +14,6 @@ return {
 			menu = {
 				auto_show = true,
 				border = border,
-				winhighlight = winhighlight,
 				draw = {
 					columns = {
 						{ "kind_icon", "kind", gap = 1 },
@@ -68,7 +65,6 @@ return {
 			documentation = {
 				window = {
 					border = border,
-					winhighlight = winhighlight,
 				},
 				auto_show = true,
 				auto_show_delay_ms = 500,
