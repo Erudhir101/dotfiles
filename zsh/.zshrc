@@ -49,6 +49,8 @@ alias lg='lazygit'
 alias zj='zellij'
 alias fetch='fastfetch'
 
+bindkey  "^[[1~"   beginning-of-line
+bindkey  "^[[4~"   end-of-line
 
 # bun completions
 [ -s "/home/erudhir/.bun/_bun" ] && source "/home/erudhir/.bun/_bun"
