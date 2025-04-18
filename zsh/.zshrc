@@ -59,6 +59,11 @@ bindkey  "^[[4~"   end-of-line
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+# run tmux when start
+if [ -z "$TMUX" ]
+then
+    tmux attach -t TMUX || tmux new -s TMUX
+fi
 
 # Shell integrations
 eval "$(fzf --zsh)"
@@ -70,6 +75,10 @@ export PATH=$HOME/.cargo/bin:$PATH
 export EDITOR="nvim -u $HOME/.config/nvim/init.lua"
 export VISUAL="nvim -u $HOME/.config/nvim/init.lua"
 export MANPAGER="nvim -u $HOME/.config/nvim/init.lua +Man!"
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # function y() {
 # 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
