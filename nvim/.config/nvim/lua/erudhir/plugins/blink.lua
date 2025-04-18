@@ -67,7 +67,6 @@ return {
 					border = border,
 				},
 				auto_show = true,
-				auto_show_delay_ms = 500,
 			},
 			trigger = {
 				show_on_keyword = true,

@@ -1,24 +1,4 @@
 return {
-	-- {
-	-- 	"rebelot/kanagawa.nvim",
-	-- 	name = "kanagawa",
-	-- 	priority = 1000,
-	-- 	lazy = false,
-	-- 	config = function()
-	-- 		local status, kanagawa = pcall(require, "kanagawa")
-	-- 		if not status then
-	-- 			return
-	-- 		end
-	--
-	-- 		kanagawa.setup({
-	-- 			compile = true,
-	-- 			theme = "dragon",
-	-- 			background = { dark = "dragon", light = "lotus" },
-	-- 		})
-	-- 		-- load the colorscheme here
-	-- 		vim.cmd("colorscheme kanagawa")
-	-- 	end,
-	-- },
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
@@ -52,21 +32,22 @@ return {
 	-- 		vim.cmd([[colorscheme dracula]])
 	-- 	end,
 	-- },
-	-- {
-	-- 	"folke/tokyonight.nvim",
-	-- 	lazy = false,
-	-- 	priority = 1000,
-	-- 	config = function()
-	-- 		local status, tokyonight = pcall(require, "tokyonight")
-	-- 		if not status then
-	-- 			return
-	-- 		end
-	-- 		tokyonight.setup({
-	-- 			style = "night",
-	-- 		})
-	-- 		vim.cmd([[colorscheme tokyonight]])
-	-- 	end,
-	-- },
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		enabled = false,
+		priority = 1000,
+		config = function()
+			local status, tokyonight = pcall(require, "tokyonight")
+			if not status then
+				return
+			end
+			tokyonight.setup({
+				style = "night",
+			})
+			vim.cmd([[colorscheme tokyonight]])
+		end,
+	},
 	-- {
 	-- 	"catppuccin/nvim",
 	-- 	lazy = false,

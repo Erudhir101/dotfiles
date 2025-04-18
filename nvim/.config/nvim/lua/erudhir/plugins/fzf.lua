@@ -29,6 +29,10 @@ return {
 			fzf.tags()
 		end, { desc = "Find tags in files" })
 
+		keymap.set("n", ";T", function()
+			fzf.grep({ search = "TODO|HACK|NOTE|FIX", no_esc = true })
+		end, { desc = "Find all TODOs,HACKs,NOTEs and FIXs" })
+
 		keymap.set("n", ";h", function()
 			fzf.help_tags()
 		end, { desc = "Find tags in files" })

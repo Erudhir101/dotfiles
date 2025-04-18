@@ -8,11 +8,8 @@ return {
 				return
 			end
 			flash.setup({
-				labels = "1234567890",
-				modes = {
-					search = {
-						enabled = true,
-					},
+				search = {
+					mode = "search",
 				},
 				char = {
 					enabled = false,

@@ -10,6 +10,7 @@ return {
 		-- Allows extra capabilities provided by nvim-cmp
 		-- "hrsh7th/cmp-nvim-lsp",
 		"saghen/blink.cmp",
+		{ "j-hui/fidget.nvim", opts = {} },
 	},
 	config = function()
 		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
@@ -23,33 +24,23 @@ return {
 					mode = mode or "n"
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
-				map(
-					"gd",
-					"<cmd>FzfLua lsp_definitions jump_to_single_result=true ignore_current_line=true<cr>",
-					"[G]oto [D]efinition"
-				)
-				map(
-					"gr",
-					"<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>",
-					"[G]oto [R]eferences"
-				)
+
+				map("gd", "<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>", "[G]oto [D]efinition")
+				map("gr", "<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<cr>", "[G]oto [R]eferences")
 				map(
 					"gi",
-					"<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>",
+					"<cmd>FzfLua lsp_implementations jump1=true ignore_current_line=true<cr>",
 					"[G]oto [I]mplementation"
 				)
 				map(
 					"ds",
-					"<cmd>FzfLua lsp_workspace_symbols jump_to_single_result=true ignore_current_line=true<cr>",
+					"<cmd>FzfLua lsp_workspace_symbols jump1=true ignore_current_line=true<cr>",
 					"[D]ocument [S]ymbols"
 				)
 				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-
 				map("K", vim.lsp.buf.hover, "show information in hover")
-
 				map("[d", vim.diagnostic.goto_prev, "show previest diagnostic")
 				map("]d", vim.diagnostic.goto_next, "show next diagnostic")
-
 				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -141,7 +132,7 @@ return {
 			"stylua",
 			"prettier",
 			"prettierd",
-			"eslind_d",
+			"eslint_d",
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
