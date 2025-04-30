@@ -12,11 +12,14 @@ return {
 		"saghen/blink.cmp",
 		{ "j-hui/fidget.nvim", opts = {} },
 	},
+
 	config = function()
+		local capabilities = require("blink.cmp").get_lsp_capabilities()
+
 		vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-			border = "rounded", -- Rounded border for the hover window
-			focusable = false, -- Makes the hover window not steal focus
+			border = "rounded",
 		})
+
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 			callback = function(event)
@@ -25,18 +28,20 @@ return {
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
-				map("gd", "<cmd>FzfLua lsp_definitions jump1=true ignore_current_line=true<cr>", "[G]oto [D]efinition")
-				map("gr", "<cmd>FzfLua lsp_references jump1=true ignore_current_line=true<cr>", "[G]oto [R]eferences")
-				map(
-					"gi",
-					"<cmd>FzfLua lsp_implementations jump1=true ignore_current_line=true<cr>",
-					"[G]oto [I]mplementation"
-				)
-				map(
-					"ds",
-					"<cmd>FzfLua lsp_workspace_symbols jump1=true ignore_current_line=true<cr>",
-					"[D]ocument [S]ymbols"
-				)
+				local fzf = require("fzf-lua")
+
+				map("gd", function()
+					fzf.lsp_definitions({ ignore_current_line = true })
+				end, "[G]oto [D]efinition")
+				map("gr", function()
+					fzf.lsp_references({ ignore_current_line = true })
+				end, "[G]oto [R]eferences")
+				map("gi", function()
+					fzf.lsp_implementations({ ignore_current_line = true })
+				end, "[G]oto [I]mplementation")
+				map("ds", function()
+					fzf.lsp_workspace_symbols({ ignore_current_line = true })
+				end, "[D]ocument [S]ymbols")
 				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 				map("K", vim.lsp.buf.hover, "show information in hover")
 				map("[d", vim.diagnostic.goto_prev, "show previest diagnostic")
@@ -44,7 +49,7 @@ return {
 				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						buffer = event.buf,
@@ -75,27 +80,8 @@ return {
 			end,
 		})
 
-		local capabilities = require("blink.cmp").get_lsp_capabilities()
-
 		local servers = {
 			ts_ls = {},
-			ruff = {},
-			pylsp = {
-				settings = {
-					pylsp = {
-						plugins = {
-							pyflakes = { enabled = false },
-							pycodestyle = { enabled = false },
-							autopep8 = { enabled = false },
-							yapf = { enabled = false },
-							mccabe = { enabled = false },
-							pylsp_mypy = { enabled = false },
-							pylsp_black = { enabled = false },
-							pylsp_isort = { enabled = false },
-						},
-					},
-				},
-			},
 			html = { filetypes = { "html", "twig", "hbs" } },
 			cssls = {},
 			tailwindcss = {},
@@ -129,10 +115,19 @@ return {
 
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
-			"stylua",
+			"bashls",
+			"cssls",
+			"eslint_d",
+			"html",
+			"jsonls",
+			"lua_ls",
 			"prettier",
 			"prettierd",
-			"eslint_d",
+			"shfmt",
+			"stylua",
+			"svelte",
+			"tailwindcss",
+			"ts_ls",
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 

@@ -30,6 +30,8 @@ return {
 				c = { "clang-format" },
 				-- rust = { "ast_grep" },
 				python = { "isort", "black" },
+				bash = { "shfmt" },
+				shell = { "shfmt" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
