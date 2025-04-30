@@ -142,18 +142,17 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
         "p",
-        lazy.spawn("/home/erudhir/.config/rofi/launcher.sh"),
+        lazy.spawn("/home/erudhir/scripts/dmenu.sh"),
         desc="Run Launcher",
     ),
     Key(
         [mod, "shift"],
         "p",
-        # lazy.spawn("/home/erudhir/.config/rofi/powermenu.sh"),
-        lazy.spawn("/home/erudhir/.config/rofi/power-menu.sh"),
+        lazy.spawn("/home/erudhir/scripts/dmenu-power.sh"),
         desc="Run Launcher",
     ),
     # Key([mod], "x", lazy.logout(), desc="Logout menu"),
@@ -182,35 +181,35 @@ keys = [
         [],
         "XF86MonBrightnessUp",
         # lazy.spawn("brightnessctl set +5%"),
-        lazy.spawn("/home/erudhir/dotfiles/scripts/brightness-control.sh -o i"),
+        lazy.spawn("/home/erudhir/scripts/brightness-control.sh -o i"),
         desc="Brightness up",
     ),
     Key(
         [],
         "XF86MonBrightnessDown",
         # lazy.spawn("brightnessctl set 5%-"),
-        lazy.spawn("/home/erudhir/dotfiles/scripts/brightness-control.sh -o d"),
+        lazy.spawn("/home/erudhir/scripts/brightness-control.sh -o d"),
         desc="Brightness down",
     ),
     Key(
         [],
         "XF86AudioMute",
         # lazy.spawn("pactl set-sink-mute 0 toggle"),
-        lazy.spawn("/home/erudhir/dotfiles/scripts/volume-control.sh m"),
+        lazy.spawn("/home/erudhir/scripts/volume-control.sh m"),
         desc="Audio mute",
     ),
     Key(
         [],
         "XF86AudioLowerVolume",
         # lazy.spawn("pactl set-sink-volume 0 -5%"),
-        lazy.spawn("/home/erudhir/dotfiles/scripts/volume-control.sh d"),
+        lazy.spawn("/home/erudhir/scripts/volume-control.sh d"),
         desc="Audio volume -5%",
     ),
     Key(
         [],
         "XF86AudioRaiseVolume",
         # lazy.spawn("pactl set-sink-volume 0 +5%"),
-        lazy.spawn("/home/erudhir/dotfiles/scripts/volume-control.sh i"),
+        lazy.spawn("/home/erudhir/scripts/volume-control.sh i"),
         desc="Audio volume +5%",
     ),
     Key([], "Print", lazy.spawn("flameshot gui"), desc="PrintScreen in Qtile"),
@@ -310,7 +309,7 @@ layouts = [
 
 
 widget_defaults = dict(
-    font="JetBrains Mono SemiBold", fontsize=14, padding=4, background=colors[2]
+    font="Hack Nerd Font SemiBold", fontsize=12, padding=4, background=colors[2]
 )
 extension_defaults = widget_defaults.copy()
 
@@ -366,7 +365,7 @@ def init_widgets_list():
         widget.Spacer(length=16),
         widget.Memory(
             # format="{MemUsed: .0f}{mm}|{MemTotal: .0f}{mm}",
-            format="  {MemPercent}%",
+            format="  {MemPercent}%",
             measure_mem="G",
             update_interval=5.0,
             foreground=colors[7],
@@ -395,7 +394,7 @@ def init_widgets_list():
         widget.Spacer(length=16),
         widget.Backlight(
             backlight_name="intel_backlight",
-            fmt="  {}",
+            fmt="  {}",
             step=5,
             change_command="xbacklight -set {0}",
             foreground=colors[7],
@@ -403,7 +402,7 @@ def init_widgets_list():
         widget.Spacer(length=16),
         widget.Clock(
             foreground=colors[8],
-            format="⏱ %a,%d/%m/%y - %H:%M:%S",
+            format="󰥔  %a,%d/%m/%y - %H:%M:%S",
             mouse_callbacks={
                 "Button1": lazy.spawn("/home/erudhir/dotfiles/scripts/popupCalendar.sh")
             },

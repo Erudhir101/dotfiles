@@ -35,9 +35,9 @@ HISTSIZE=5000
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors '${(s.:.)LS_COLORS}'
-# zstyle ':completion:*' menu no
-# zstyle ':zfz-tab:completion:cd:*' fzf-preview 'ls --color $realpath'
-# zstyle ':zfz-tab:completion:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+zstyle ':completion:*' menu no
+zstyle ':zfz-tab:completion:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':zfz-tab:completion:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 # alias ls='ls -la --color'
@@ -65,13 +65,12 @@ then
     tmux attach -t TMUX || tmux new -s TMUX
 fi
 
-# Shell integrations
-eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
-eval "$(starship init zsh)"
 
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$PATH:$HOME/.local/share/flatpak/exports/bin
+export PATH=$PATH:/var/lib/flatpak/exports/bin
 export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/build/zig:$PATH
 export EDITOR="nvim -u $HOME/.config/nvim/init.lua"
 export VISUAL="nvim -u $HOME/.config/nvim/init.lua"
 export MANPAGER="nvim -u $HOME/.config/nvim/init.lua +Man!"
@@ -80,11 +79,13 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-# function y() {
-# 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-# 	yazi "$@" --cwd-file="$tmp"
-# 	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-# 		builtin cd -- "$cwd"
-# 	fi
-# 	rm -f -- "$tmp"
-# }
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Shell integrations
+source <(fzf --zsh)
+eval "$(zoxide init --cmd cd zsh)"
+eval "$(starship init zsh)"

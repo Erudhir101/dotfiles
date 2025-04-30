@@ -1,0 +1,9 @@
+{
+    "diagnostics.globals": [
+        "awesome"
+    ],
+    "diagnostics.disable": [
+        "missing-fields",
+        "undefined-global"
+    ]
+}

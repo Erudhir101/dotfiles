@@ -28,16 +28,16 @@ config.inactive_pane_hsb = {
 }
 
 -- keymaps
-config.leader = { key = "s", mods = "CTRL", timeout_milliseconds = 1000 }
-config.keys = {
-	-- Pane keybindings
-	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
-
-	-- Tab keybindings
-	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
-	{ key = "h", mods = "ALT", action = act.ActivateTabRelative(-1) },
-	{ key = "l", mods = "ALT", action = act.ActivateTabRelative(1) },
-}
+-- config.leader = { key = "s", mods = "CTRL", timeout_milliseconds = 1000 }
+-- config.keys = {
+-- 	-- Pane keybindings
+-- 	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane({ confirm = true }) },
+--
+-- 	-- Tab keybindings
+-- 	{ key = "c", mods = "LEADER", action = act.SpawnTab("CurrentPaneDomain") },
+-- 	{ key = "h", mods = "ALT", action = act.ActivateTabRelative(-1) },
+-- 	{ key = "l", mods = "ALT", action = act.ActivateTabRelative(1) },
+-- }
 
 -- Tab bar
 -- I don't like the look of "fancy" tab bar
