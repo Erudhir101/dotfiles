@@ -4,8 +4,8 @@ return {
 	event = { "BufRead", "BufNewFile" },
 	dependencies = {
 		-- Automatically install LSPs and related tools to stdpath for Neovim
-		{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
-		"williamboman/mason-lspconfig.nvim",
+		{ "mason-org/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
+		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		-- Allows extra capabilities provided by nvim-cmp
 		-- "hrsh7th/cmp-nvim-lsp",
@@ -28,19 +28,19 @@ return {
 					vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
-				local fzf = require("fzf-lua")
+				local picker = require("snacks.picker")
 
 				map("gd", function()
-					fzf.lsp_definitions({ ignore_current_line = true })
+					picker.lsp_definitions()
 				end, "[G]oto [D]efinition")
 				map("gr", function()
-					fzf.lsp_references({ ignore_current_line = true })
+					picker.lsp_references()
 				end, "[G]oto [R]eferences")
 				map("gi", function()
-					fzf.lsp_implementations({ ignore_current_line = true })
+					picker.lsp_implementations()
 				end, "[G]oto [I]mplementation")
 				map("ds", function()
-					fzf.lsp_workspace_symbols({ ignore_current_line = true })
+					picker.lsp_workspace_symbols()
 				end, "[D]ocument [S]ymbols")
 				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 				map("K", vim.lsp.buf.hover, "show information in hover")

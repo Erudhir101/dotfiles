@@ -10,6 +10,7 @@ return {
 
 		snacks.setup({
 			bigfile = { enabled = true, notify = true, size = 100 * 1024 },
+			image = { enabled = true },
 			dashboard = {
 				enabled = true,
 				preset = {
@@ -18,26 +19,26 @@ return {
 							icon = " ",
 							key = "f",
 							desc = "Find File",
-							action = ":lua FzfLua.files()",
+							action = ":lua Snacks.dashboard.pick('files')",
 						},
 						{ icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
 						{
 							icon = " ",
 							key = "g",
 							desc = "Find Text",
-							action = ":lua FzfLua.live_grep()",
+							action = ":lua Snacks.dashboard.pick('live_grep')",
 						},
 						{
 							icon = " ",
 							key = "r",
 							desc = "Recent Files",
-							action = ":lua FzfLua.oldfiles()",
+							action = ":lua Snacks.dashboard.pick('oldfiles')",
 						},
 						{
 							icon = " ",
 							key = "c",
 							desc = "Config",
-							action = ":lua FzfLua.files({cwd = vim.fn.stdpath('config')})",
+							action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
 						},
 						{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
 						{
@@ -53,7 +54,13 @@ return {
 			},
 			indent = { enabled = true, animate = { enabled = false } },
 			input = { enabled = true },
-			picker = { enabled = true, replace_netrw = true },
+			picker = {
+				enabled = true,
+				excludes = { ".git", "node_modules" },
+				auto_close = true,
+				sources = {},
+				-- sources = { { type = "files", ignored = true } },
+			},
 			quickfile = { enabled = false },
 			scroll = { enabled = false },
 			statuscolumn = { enabled = false },
@@ -68,6 +75,46 @@ return {
 		vim.keymap.set("n", "<C-e>", function()
 			snacks.explorer()
 		end, { desc = "Open Explorer" })
+
+		vim.keymap.set("n", ";f", function()
+			snacks.picker.files({ hidden = true })
+		end, { desc = "Fuzzy find files in cwd" })
+
+		vim.keymap.set("n", ";g", function()
+			snacks.picker.grep({ hidden = true })
+		end, { desc = "Find string in cwd" })
+
+		vim.keymap.set("n", ";t", function()
+			snacks.picker.marks()
+		end, { desc = "Find marks in files" })
+
+		vim.keymap.set("n", ";T", function()
+			snacks.picker.grep({ search = "TODO|HACK|NOTE|FIX", hidden = true })
+		end, { desc = "Find all TODOs,HACKs,NOTEs and FIXs" })
+
+		vim.keymap.set("n", ";h", function()
+			snacks.picker.help()
+		end, { desc = "Find tags in files" })
+
+		vim.keymap.set("n", ";d", function()
+			snacks.picker.diagnostics()
+		end, { desc = "Find all diagnostics" })
+
+		vim.keymap.set("n", ";D", function()
+			snacks.picker.diagnostics_buffer()
+		end, { desc = "Find all diagnostics in workspace" })
+
+		vim.keymap.set("n", ";b", function()
+			snacks.picker.buffers()
+		end, { desc = "Find all buffers" })
+
+		vim.keymap.set("n", ";k", function()
+			snacks.picker.keymaps()
+		end, { desc = "Find vim.keymaps" })
+
+		vim.keymap.set("n", ";z", function()
+			snacks.picker.spelling()
+		end, { desc = "show spell words suggestions" })
 
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "MiniFilesActionRename",

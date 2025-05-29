@@ -19,8 +19,8 @@ return {
 				autotag = { enable = true },
 				ensure_installed = {
 					"bash",
-					"cpp",
 					"c",
+					"cpp",
 					"css",
 					"dockerfile",
 					"gitignore",
@@ -36,6 +36,7 @@ return {
 					"python",
 					"rust",
 					"svelte",
+					"tsx",
 					"typescript",
 					"vim",
 					"yaml",

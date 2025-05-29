@@ -1,6 +1,22 @@
 return {
 	{ "echasnovski/mini.move", version = false, opts = {} },
 	{
+		"echasnovski/mini.keymap",
+		version = false,
+		config = function()
+			local status, keymap = pcall(require, "mini.keymap")
+			if not status then
+				return
+			end
+			local map_combo = keymap.map_combo
+			local mode = { "i", "c", "x", "s" }
+
+			map_combo(mode, "jk", "<BS><BS><Esc>")
+			-- Escape into Normal mode from Terminal mode
+			map_combo("t", "jk", "<BS><BS><C-\\><C-n>")
+		end,
+	},
+	{
 		"echasnovski/mini.pairs",
 		version = false,
 		event = "VeryLazy",
