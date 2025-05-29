@@ -1,0 +1,12 @@
+[user]
+  name = Gabriel Carneiro
+  email = bieusc@hotmail.com
+
+[status]
+  branch = true
+  showStash = true
+
+[url "git@github.com:"]
+  insteadOf = "gh:"
+[url "git@gitlab.com:"]
+  insteadOf = "gl:"
