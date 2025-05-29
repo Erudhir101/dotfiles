@@ -14,16 +14,18 @@ set $down  j
 set $up    k
 set $right l
 # Your preferred terminal emulator
-set $term kitty
+set $term ghostty
 # Your preferred application launcher
 
-set $menu ~/scripts/dmenu.sh
-set $menu-power ~/scripts/dmenu-power.sh
+# set $menu ~/scripts/dmenu.sh
+# set $menu-power ~/scripts/dmenu-power.sh
+set $menu ~/.config/rofi/launcher.sh
+set $menu-power ~/.config/rofi/power-menu.sh
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /media/erudhir/Documents/Images/painting.jpg fill
+output * bg /media/erudhir/Documents/Images/wizard.png fill
 
 # each display configuration
 output HDMI-A-1 resolution 1920x1080@144Hz position 0,0
@@ -42,9 +44,7 @@ bindswitch --locked --reload {
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 300 'swaylock' \
-         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-         before-sleep 'swaylock'
+         timeout 300 'swaylock'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -60,10 +60,17 @@ exec swayidle -w \
       natural_scroll enabled
       middle_emulation enabled
   }
+#mouse wireless
+input "9354:23343:XCTECH_Wireless-Receiver" {
+      accel_profile "flat"
+      pointer_accel 0
+  }
+
   input "type:keyboard" {
       xkb_layout us 
       xkb_variant intl 
   }
+
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
@@ -214,7 +221,8 @@ exec swayidle -w \
     bindsym XF86AudioPrev exec playerctl previous
 
     # Special key to take a screenshot with grim, slurp(area) and swappy(edit)
-    bindsym Print exec grim -g "$(slurp)" - | swappy -f -
+# bindsym Print exec grim -g "$(slurp)" - | swappy -f -
+    bindsym Print exec "flameshot gui"
 #
 # Status Bar:
 #
