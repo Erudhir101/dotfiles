@@ -79,6 +79,31 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  export SDL_VIDEODRIVER=wayland
+  export QT_QPA_PLATFORM=wayland 
+  if [ -z "$XDG_CURRENT_DESKTOP" ]; then
+    export XDG_CURRENT_DESKTOP="sway"
+  fi
+  if [ -z "$XDG_SESSION_DESKTOP" ]; then
+    export XDG_SESSION_DESKTOP="sway"
+  fi
+elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
+  export SDL_VIDEODRIVER=x11
+  export QT_QPA_PLATFORM=xcb 
+  if [ -z "$XDG_CURRENT_DESKTOP" ] && [ -n "$DESKTOP_SESSION" ]; then
+    export XDG_CURRENT_DESKTOP="$DESKTOP_SESSION"
+  fi
+  if [ -z "$XDG_SESSION_DESKTOP" ] && [ -n "$DESKTOP_SESSION" ]; then
+    export XDG_SESSION_DESKTOP="$DESKTOP_SESSION"
+  fi
+else
+  unset QT_QPA_PLATFORM
+  unset SDL_VIDEODRIVER
+fi
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
