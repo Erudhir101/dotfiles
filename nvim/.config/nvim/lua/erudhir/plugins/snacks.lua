@@ -59,13 +59,24 @@ return {
 				excludes = { ".git", "node_modules" },
 				auto_close = true,
 				sources = {},
-				-- sources = { { type = "files", ignored = true } },
 			},
 			quickfile = { enabled = false },
 			scroll = { enabled = false },
-			statuscolumn = { enabled = false },
 			words = { enabled = false },
 			lazygit = { enabled = true },
+			statuscolumn = {
+				left = { "mark", "sign" },
+				right = { "fold", "git" },
+				folds = {
+					open = false,
+					git_hl = false,
+				},
+				git = {
+					-- patterns to match Git signs
+					patterns = { "GitSign", "MiniDiffSign" },
+				},
+				refresh = 50, -- refresh at most every 50ms
+			},
 		})
 
 		vim.keymap.set("n", "<leader>lg", function()

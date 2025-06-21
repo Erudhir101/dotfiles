@@ -1,5 +1,14 @@
 return {
-	{ "echasnovski/mini.move", version = false, opts = {} },
+	{ "echasnovski/mini.move", version = false, opts = {}, config = true },
+	{ "echasnovski/mini.diff", version = false, opts = { view = { style = "sign" } }, config = true },
+	{ "echasnovski/mini.cursorword", version = false, opts = {}, config = true },
+	{ "echasnovski/mini.comment", version = false, opts = {}, config = true },
+	{
+		"echasnovski/mini.pairs",
+		version = false,
+		event = "VeryLazy",
+		config = true,
+	},
 	{
 		"echasnovski/mini.keymap",
 		version = false,
@@ -14,28 +23,6 @@ return {
 			map_combo(mode, "jk", "<BS><BS><Esc>")
 			-- Escape into Normal mode from Terminal mode
 			map_combo("t", "jk", "<BS><BS><C-\\><C-n>")
-		end,
-	},
-	{
-		"echasnovski/mini.pairs",
-		version = false,
-		event = "VeryLazy",
-		config = function()
-			local status, pairs = pcall(require, "mini.pairs")
-			if not status then
-				return
-			end
-			pairs.setup({
-				-- skip autopair when next character is one of these
-				skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
-				-- skip autopair when the cursor is inside these treesitter nodes
-				skip_ts = { "string" },
-				-- skip autopair when next character is closing pair
-				-- and there are more closing pairs than opening pairs
-				skip_unbalanced = true,
-				-- better deal with markdown code blocks
-				markdown = true,
-			})
 		end,
 	},
 	{

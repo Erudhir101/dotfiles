@@ -2,7 +2,7 @@ local border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
 return {
 	"saghen/blink.cmp",
 	event = "VeryLazy",
-	dependencies = { { "rafamadriz/friendly-snippets" }, { "echasnovski/mini.icons", version = false } },
+	dependencies = { { "echasnovski/mini.icons", version = false }, { "L3MON4D3/LuaSnip", version = "v2.*" } },
 	version = "*",
 	opts = {
 		keymap = { preset = "default", ["<C-i>"] = { "accept", "fallback" } },

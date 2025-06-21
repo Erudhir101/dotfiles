@@ -82,8 +82,6 @@ return {
 					end, "[D]ocument [S]ymbols")
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 					map("K", vim.lsp.buf.hover, "show information in hover")
-					map("[d", vim.diagnostic.get_prev, "show previest diagnostic")
-					map("]d", vim.diagnostic.get_next, "show next diagnostic")
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 				end,
 			})
