@@ -4,8 +4,8 @@
   "height": 5, // Waybar height (to be removed for auto height)
   // "width": 1280, // Waybar width
   // Choose the order of the modules
-  "modules-left": ["sway/workspaces"],
-  "modules-center": ["sway/window"],
+  "modules-left": ["niri/workspaces", "wlr/taskbar"],
+  "modules-center": ["niri/window"],
   "modules-right": [
     "pulseaudio",
     "network",
@@ -17,12 +17,12 @@
     "tray",
   ],
   // Modules configuration
-  "sway/workspaces": {
+  "niri/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
-    "format": "{name}",
+    "format": "{index}",
   },
-  "sway/window": {
+  "niri/window": {
     "format": "{}",
     "max-length": 50,
     "all-outputs": true,
@@ -38,6 +38,14 @@
   "tray": {
     "icon-size": 21,
     "spacing": 10,
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 12,
+    "icon-theme": "Numix-Circle",
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
   },
   "clock": {
     "interval": 1,

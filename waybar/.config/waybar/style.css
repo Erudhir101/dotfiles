@@ -42,6 +42,15 @@ window#waybar.chromium {
     border: none;
 } */
 
+#taskbar {
+  background-color: #202020;
+  border-radius: 10px;
+}
+
+#taskbar button {
+  border-radius: 10px;
+}
+
 #workspaces button {
   /* padding: 0 0.4em; */
   /* background-color: transparent; */
