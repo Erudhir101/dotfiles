@@ -1,0 +1,13 @@
+;; Arquivo de configuração do Kanata: kanata.kbd
+
+(defcfg
+process-unmapped-keys yes
+)
+
+(defsrc
+  caps ;; Define que vamos modificar a tecla Caps Lock
+)
+
+(deflayer default
+  esc ;; Aplica o alias 'esc_ctl' à tecla capslock
+)
