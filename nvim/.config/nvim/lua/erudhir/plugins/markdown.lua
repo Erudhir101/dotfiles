@@ -23,7 +23,7 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim",
 		ft = { "markdown" },
 		event = "VeryLazy",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
-		opts = {},
+		dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.icons" },
+		opts = { completions = { blink = { enabled = true } } },
 	},
 }

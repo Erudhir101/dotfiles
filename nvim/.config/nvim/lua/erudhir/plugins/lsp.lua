@@ -50,7 +50,7 @@ return {
 			})
 
 			for server, config in pairs(opts.servers) do
-				vim.lsp.config(server, config)
+				vim.lsp.config(server, require("blink.cmp").get_lsp_capabilities(config.capabilities))
 				vim.lsp.enable(server)
 			end
 

@@ -11,6 +11,14 @@ return {
 		snacks.setup({
 			bigfile = { enabled = true, notify = true, size = 100 * 1024 },
 			image = { enabled = true },
+			indent = { enabled = true, animate = { enabled = false } },
+			lazygit = { enabled = true },
+			input = { enabled = true },
+			notifier = { enabled = true },
+			quickfile = { enabled = false },
+			scroll = { enabled = false },
+			statuscolumn = { enabled = true },
+			words = { enabled = false },
 			dashboard = {
 				enabled = true,
 				preset = {
@@ -52,30 +60,11 @@ return {
 					},
 				},
 			},
-			indent = { enabled = true, animate = { enabled = false } },
-			input = { enabled = true },
 			picker = {
 				enabled = true,
 				excludes = { ".git", "node_modules" },
 				auto_close = true,
 				sources = {},
-			},
-			quickfile = { enabled = false },
-			scroll = { enabled = false },
-			words = { enabled = false },
-			lazygit = { enabled = true },
-			statuscolumn = {
-				left = { "mark", "sign" },
-				right = { "fold", "git" },
-				folds = {
-					open = false,
-					git_hl = false,
-				},
-				git = {
-					-- patterns to match Git signs
-					patterns = { "GitSign", "MiniDiffSign" },
-				},
-				refresh = 50, -- refresh at most every 50ms
 			},
 		})
 
@@ -95,7 +84,7 @@ return {
 			snacks.picker.grep({ hidden = true })
 		end, { desc = "Find string in cwd" })
 
-		vim.keymap.set("n", ";t", function()
+		vim.keymap.set("n", ";m", function()
 			snacks.picker.marks()
 		end, { desc = "Find marks in files" })
 
@@ -123,9 +112,17 @@ return {
 			snacks.picker.keymaps()
 		end, { desc = "Find vim.keymaps" })
 
+		vim.keymap.set("n", "<leader>si", function()
+			snacks.picker.icons()
+		end, { desc = "Find Icons emoji" })
+
 		vim.keymap.set("n", ";z", function()
 			snacks.picker.spelling()
 		end, { desc = "show spell words suggestions" })
+
+		vim.keymap.set("n", "<leader>uC", function()
+			snacks.picker.colorschemes()
+		end, { desc = "chose coloscheme" })
 
 		vim.api.nvim_create_autocmd("User", {
 			pattern = "MiniFilesActionRename",
@@ -134,4 +131,19 @@ return {
 			end,
 		})
 	end,
+
+	-- vim.api.nvim_create_autocmd("LspProgress", {
+	-- 	---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+	-- 	callback = function(ev)
+	-- 		local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+	-- 		vim.notify(vim.lsp.status(), "info", {
+	-- 			id = "lsp_progress",
+	-- 			title = "LSP Progress",
+	-- 			opts = function(notif)
+	-- 				notif.icon = ev.data.params.value.kind == "end" and " "
+	-- 					or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+	-- 			end,
+	-- 		})
+	-- 	end,
+	-- }),
 }

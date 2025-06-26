@@ -5,7 +5,7 @@ return {
 	dependencies = { { "echasnovski/mini.icons", version = false }, { "L3MON4D3/LuaSnip", version = "v2.*" } },
 	version = "*",
 	opts = {
-		keymap = { preset = "default", ["<C-i>"] = { "accept", "fallback" } },
+		keymap = { preset = "default", ["<C-y>"] = { "accept", "fallback" } },
 		appearance = {
 			nerd_font_variant = "mono",
 		},
