@@ -1,10 +1,12 @@
 sort=-time
 layer=overlay
-background-color=#2e3440
+background-color=#1e1e2e
+text-color=#cdd6f4
 width=300
 height=110
 border-size=2
-border-color=#88c0d0
+border-color=#cba6f7
+progress-color=over #313244
 border-radius=15
 icons=0
 max-icon-size=64
@@ -19,7 +21,7 @@ border-color=#cccccc
 border-color=#d08770
 
 [urgency=high]
-border-color=#bf616a
+border-color=#fab387
 default-timeout=0
 
 [category=mpd]
