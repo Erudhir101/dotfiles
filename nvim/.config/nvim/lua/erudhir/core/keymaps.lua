@@ -4,7 +4,7 @@ local key = vim.keymap -- for conciseness
 -- General Keymaps -------------------
 
 -- use jk to exit insert mode
-key.set("i", "jk", "<esc>", { desc = "exit insert mode with jk", noremap = false })
+-- key.set("i", "jk", "<esc>", { desc = "exit insert mode with jk", noremap = false })
 
 key.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 key.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
@@ -30,6 +30,3 @@ key.set("n", "<C-a>", "gg<S-v>G", { desc = "select all text" })
 -- increment/decrement numbers
 key.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
 key.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" }) -- decrement
-
-key.set("n", "<Tab>", "<cmd>tabnext<CR>", { desc = "Go to next tab" }) --  go to next tab
-key.set("n", "<S-Tab>", "<cmd>tabprevious<CR>", { desc = "Go to previous tab" }) --  go to next tab

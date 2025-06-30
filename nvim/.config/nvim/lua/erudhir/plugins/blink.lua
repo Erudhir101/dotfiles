@@ -3,7 +3,7 @@ return {
 	"saghen/blink.cmp",
 	event = "VeryLazy",
 	dependencies = { { "echasnovski/mini.icons", version = false }, { "L3MON4D3/LuaSnip", version = "v2.*" } },
-	version = "*",
+	version = "1.*",
 	opts = {
 		keymap = { preset = "default", ["<C-y>"] = { "accept", "fallback" } },
 		appearance = {
@@ -21,42 +21,19 @@ return {
 					},
 					components = {
 						kind_icon = {
-							ellipsis = false,
 							text = function(ctx)
-								local miniIcons = require("mini.icons")
-								if ctx.kind == "Folder" then
-									return miniIcons.get("directory", ctx.label)
-								end
-								if ctx.kind == "File" then
-									return miniIcons.get("file", ctx.label)
-								end
-								if ctx.kind == "Copilot" then
-									return ""
-								end
 								local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
 								return kind_icon
 							end,
-							-- Optionally, you may also use the highlights from mini.icons
 							highlight = function(ctx)
-								if ctx.kind == "Folder" then
-									local _, hl, _ = require("mini.icons").get("directory", ctx.label)
-									return hl
-								end
-								if ctx.kind == "File" then
-									local _, hl, _ = require("mini.icons").get("file", ctx.label)
-									return hl
-								end
-								if ctx.kind == "Copilot" then
-									local _, hl, _ = require("mini.icons").get("os", "nixos")
-									return hl
-								end
 								local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
 								return hl
 							end,
 						},
 						kind = {
-							text = function(ctx)
-								return " " .. ctx.kind
+							highlight = function(ctx)
+								local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+								return hl
 							end,
 						},
 					},
