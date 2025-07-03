@@ -4,8 +4,8 @@
   "height": 5, // Waybar height (to be removed for auto height)
   // "width": 1280, // Waybar width
   // Choose the order of the modules
-  "modules-left": ["niri/workspaces", "wlr/taskbar"],
-  "modules-center": ["niri/window"],
+  "modules-left": ["niri/workspaces", "hyprland/workspaces", "wlr/taskbar"],
+  "modules-center": ["niri/window", "hyprland/window"],
   "modules-right": [
     "pulseaudio",
     "network",
@@ -17,6 +17,18 @@
     "tray",
   ],
   // Modules configuration
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{id}",
+  },
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 50,
+    "all-outputs": true,
+    "offscreen-css": true,
+    "offscreen-css-text": "(inactive)",
+  },
   "niri/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
