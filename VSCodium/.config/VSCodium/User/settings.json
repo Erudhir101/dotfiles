@@ -1,0 +1,21 @@
+{
+  "editor.fontFamily": "Hack Nerd Font",
+  "editor.fontSize": 18,
+  "editor.minimap.enabled": false,
+  "editor.autoClosingBrackets": "always",
+  "editor.formatOnSave": true,
+  "workbench.tips.enabled": false,
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.iconTheme": "material-icon-theme",
+  "vim.useSystemClipboard": true,
+  "vim.hlsearch": true,
+  "vim.useCtrlKeys": true,
+  "vim.smartRelativeLine": true,
+  "vim.highlightedyank.enable": true,
+  "vim.highlightedyank.color": "rgba(249, 226, 175, 0.8)",
+  "vim.highlightedyank.textColor": "#202020",
+  "vim.highlightedyank.duration": 200,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
