@@ -1,0 +1,22 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "; f": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      "j k": "vim::SwitchToNormalMode"
+    }
+  },
+  {
+    "context": "Editor && vim_mode != insert && !menu",
+    "bindings": { "space c f": "editor::Format" }
+  },
+  {
+    "context": "Editor && vim_mode != insert && !menu",
+    "bindings": { "space c a": "editor::ToggleCodeActions" }
+  }
+]
