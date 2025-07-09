@@ -33,6 +33,8 @@
     "light": "Catppuccin Latte"
   },
 
+  // "features": { "edit_prediction_provider": "zed" },
+
   "languages": {
     "JavaScript": {
       "formatter": {

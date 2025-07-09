@@ -1,22 +1,56 @@
 [
   {
-    "context": "Workspace",
     "bindings": {
-      "; f": "file_finder::Toggle"
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
   {
-    "context": "Editor && vim_mode == insert && !menu",
+    "context": "not_editing || (Editor && vim_mode == normal)",
     "bindings": {
-      "j k": "vim::SwitchToNormalMode"
+      "space ,": "tab_switcher::Toggle",
+      "; f": "file_finder::Toggle",
+      "space e": "workspace::ToggleLeftDock"
     }
   },
   {
-    "context": "Editor && vim_mode != insert && !menu",
-    "bindings": { "space c f": "editor::Format" }
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      "shift-k": "editor::Hover",
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space r n": "editor::Rename",
+      "space c s": "outline::Toggle",
+      "space s s": "project_symbols::Toggle",
+      "space g d": "editor::GoToDefinition",
+      "space g r": "editor::FindAllReferences",
+      "space s g": "pane::DeploySearch",
+      "ctrl-n": "editor::SelectNext"
+    }
   },
   {
-    "context": "Editor && vim_mode != insert && !menu",
-    "bindings": { "space c a": "editor::ToggleCodeActions" }
+    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      "alt-j": "editor::MoveLineDown",
+      "alt-k": "editor::MoveLineUp"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "A": "project_panel::NewDirectory",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "x": "project_panel::Cut",
+      "s": [
+        "workspace::SendKeystrokes",
+        "ctrl-h cmd-k right right ctrl-l enter right right right right alt-cmd-t"
+      ]
+    }
   }
 ]
