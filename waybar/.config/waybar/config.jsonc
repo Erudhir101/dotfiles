@@ -1,21 +1,9 @@
 {
-  // "layer": "top", // Waybar at top layer
-  "position": "top", // Waybar position (top|bottom|left|right)
-  "height": 5, // Waybar height (to be removed for auto height)
-  // "width": 1280, // Waybar width
-  // Choose the order of the modules
-  "modules-left": ["niri/workspaces", "hyprland/workspaces", "wlr/taskbar"],
-  "modules-center": ["niri/window", "hyprland/window"],
-  "modules-right": [
-    "pulseaudio",
-    "network",
-    "backlight",
-    "cpu",
-    "memory",
-    "battery",
-    "clock",
-    "tray",
-  ],
+  "position": "top",
+  "margin": "5 10 0",
+  "modules-left": ["hyprland/workspaces", "wlr/taskbar", "cpu", "memory"],
+  "modules-center": ["hyprland/window"],
+  "modules-right": ["pulseaudio", "backlight", "battery", "clock", "tray"],
   // Modules configuration
   "hyprland/workspaces": {
     "disable-scroll": true,
@@ -48,21 +36,19 @@
   },
 
   "tray": {
-    "icon-size": 21,
-    "spacing": 10,
+    "icon-size": 16,
+    "spacing": 8,
   },
   "wlr/taskbar": {
     "format": "{icon}",
-    "icon-size": 12,
-    "icon-theme": "Numix-Circle",
+    "icon-size": 16,
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
   },
   "clock": {
     "interval": 1,
-    "format": "  {:%H:%M:%S}",
-    "format-alt": "{:%A, %d/%m/%y}",
+    "format": " {:%A, %d/%m/%y - %H:%M:%S}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "year",
@@ -88,7 +74,6 @@
   "cpu": {
     "interval": 10,
     "format": " {usage}%",
-    "tooltip": false,
   },
   "memory": {
     "interval": 10,
@@ -104,7 +89,7 @@
   // },
   "backlight": {
     // "device": "acpi_video1",
-    "format": "{icon} {percent}% ",
+    "format": "{icon} {percent}%",
     "format-icons": ["", ""],
   },
   "battery": {
@@ -114,21 +99,22 @@
       "warning": 30,
       "critical": 15,
     },
-    "format": "{icon}  {capacity}%",
-    "format-alt": "{time} ",
+    "format": "{icon} {capacity}%",
+    "format-alt": "{time}",
     "format-icons": ["", "", "", "", ""],
     "max-length": "25",
   },
   "network": {
     "interface": "wlan0",
     "format": "{ifname}",
-    "format-wifi": "  {essid} ({signalStrength}%)",
-    "format-ethernet": "󰊗  {ipaddr}/{cidr}",
+    "format-wifi": " {essid} ({signalStrength}%)",
+    "format-ethernet": "󰊗 {ipaddr}/{cidr}",
     "format-disconnected": "", //An empty format will hide the module.
-    "tooltip-format": "󰊗  {ifname} via {gwaddr}",
-    "tooltip-format-wifi": "  {essid} ({signalStrength}%)",
-    "tooltip-format-ethernet": "  {ifname}",
+    "tooltip-format": "󰊗 {ifname} via {gwaddr}",
+    "tooltip-format-wifi": " {essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": " {ifname}",
     "tooltip-format-disconnected": "Disconnected",
+    "on-click": "nm-applet",
     "max-length": 50,
   },
 
@@ -137,8 +123,8 @@
     "scroll-step": 1,
     "format": "{icon} {volume}%  {format_source}",
     "format-bluetooth": "{icon} {volume}%   {format_source}",
-    "format-bluetooth-muted": "  {icon}  {format_source}",
-    "format-muted": "  {format_source}",
+    "format-bluetooth-muted": "{icon}  {format_source}",
+    "format-muted": " {format_source}",
     "format-source": " {volume}%",
     "format-source-muted": "",
     "format-icons": {
@@ -148,7 +134,7 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", " "],
+      "default": ["", "", ""],
     },
     "on-click-middle": "pavucontrol",
     "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
