@@ -10,6 +10,10 @@ window#waybar {
   background-color: transparent;
 }
 
+window#waybar.empty #window {
+  background-color: transparent;
+}
+
 #taskbar {
   background-color: @crust;
 }
