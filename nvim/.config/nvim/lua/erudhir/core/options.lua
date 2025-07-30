@@ -32,7 +32,7 @@ opt.cursorline = true -- highlight the current cursor line
 -- opt.guicursor = "" -- for cursor bug
 
 -- search
-opt.hlsearch = false -- for searching
+opt.hlsearch = true -- for searching
 opt.incsearch = true -- for searching
 
 -- scroll
