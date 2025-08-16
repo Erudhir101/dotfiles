@@ -15,17 +15,15 @@ set $up    k
 set $right l
 # Your preferred terminal emulator
 set $term ghostty
-# Your preferred application launcher
 
-# set $menu ~/scripts/dmenu.sh
-# set $menu-power ~/scripts/dmenu-power.sh
+# Your preferred application launcher
 set $menu ~/.config/rofi/launcher.sh
 set $menu-power ~/.config/rofi/power-menu.sh
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /media/erudhir/Documents/Images/wizard.png fill
+output * bg /mnt/backup/Documents/Images/wizard.png fill
 
 # each display configuration
 output HDMI-A-1 resolution 1920x1080@144Hz position 0,0
