@@ -5,9 +5,11 @@ process-unmapped-keys yes
 )
 
 (defsrc
-  caps ;; Define que vamos modificar a tecla Caps Lock
+  caps 
+  esc 
 )
 
 (deflayer default
-  esc ;; Aplica o alias 'esc_ctl' à tecla capslock
+  esc 
+  caps 
 )
