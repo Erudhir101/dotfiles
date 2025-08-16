@@ -1,8 +1,8 @@
 {
   "position": "top",
   "margin": "5 10 0",
-  "modules-left": ["hyprland/workspaces", "wlr/taskbar", "cpu", "memory"],
-  "modules-center": ["hyprland/window"],
+  "modules-left": ["niri/workspaces", "wlr/taskbar", "cpu", "memory"],
+  "modules-center": ["niri/window"],
   "modules-right": ["pulseaudio", "backlight", "battery", "clock", "tray"],
   // Modules configuration
   "hyprland/workspaces": {
@@ -29,12 +29,18 @@
     "offscreen-css": true,
     "offscreen-css-text": "(inactive)",
   },
-
-  "sway/mode": {
-    "format": " {}",
-    "max-length": 50,
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{index}",
   },
-
+  "sway/window": {
+    "format": "{}",
+    "max-length": 50,
+    "all-outputs": true,
+    "offscreen-css": true,
+    "offscreen-css-text": "(inactive)",
+  },
   "tray": {
     "icon-size": 16,
     "spacing": 8,
