@@ -1,66 +1,81 @@
-local opt = vim.opt -- for conciseness
+local opt          = vim.o -- for conciseness
 
 -- encoding
 vim.scriptencoding = "utf-8"
-opt.encoding = "utf-8"
-opt.fileencoding = "utf-8"
+opt.encoding       = "utf-8"
+opt.fileencoding   = "utf-8"
+
+opt.mouse          = 'a'
+opt.undofile       = true
+vim.o.shada        = "'100,<50,s10,:1000,/100,@100,h"
 
 -- update
-opt.updatetime = 50
+opt.updatetime     = 50
 
 -- line numbers
-opt.relativenumber = true -- show relative line numbers
-opt.number = true -- shows absolute line number on cursor line (when relative number is on)
+opt.relativenumber = true
+opt.number         = true
+opt.ruler          = false
 
 -- tabs & indentation
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.softtabstop = 2 -- 2 spaces for tabs soft (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
-opt.smartindent = true -- make a smart indentop
+opt.tabstop        = 2
+opt.softtabstop    = 2
+opt.shiftwidth     = 2
+opt.expandtab      = true
+opt.autoindent     = true
+opt.smartindent    = true
+opt.linebreak      = true
+opt.formatoptions  = "rqnl1j"
 
 -- line wrapping
-opt.wrap = false -- disable line wrapping
+opt.wrap           = false
 
 -- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+opt.ignorecase     = true
+opt.smartcase      = true
 
 -- cursor line
-opt.cursorline = true -- highlight the current cursor line
--- opt.guicursor = "" -- for cursor bug
+opt.cursorline     = true
+opt.cursorlineopt  = "screenline,number"
+-- opt.guicursor = ""
 
 -- search
-opt.hlsearch = true -- for searching
-opt.incsearch = true -- for searching
+opt.hlsearch       = true
+opt.incsearch      = true
 
 -- scroll
-opt.scrolloff = 8
+opt.scrolloff      = 8
 
 -- appearance
-opt.breakindent = true
+opt.breakindent    = true
+opt.breakindentopt = 'list:-1'
+opt.colorcolumn    = '+1'
 
 -- turn on termguicolors for nightfly colorscheme to work
 -- (have to use iterm2 or any other true color terminal)
-opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
-opt.conceallevel = 1
+opt.termguicolors  = true
+opt.background     = "dark"
+opt.signcolumn     = "yes"
+opt.conceallevel   = 1
 
 -- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+opt.backspace      = "indent,eol,start"
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard      = "unnamedplus"
 
 -- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+opt.splitright     = true
+opt.splitbelow     = true
+opt.splitkeep      = 'screen'
+opt.winborder      = 'single'
 
 -- turn off swapfile
-opt.swapfile = false
+opt.swapfile       = false
 
 -- spell check
-opt.spelllang = "pt_br,en_us"
-opt.spell = false
+opt.spelllang      = "pt_br,en_us"
+opt.spell          = false
+
+opt.shortmess      = "CFOSWaco"
+opt.showmode       = false
