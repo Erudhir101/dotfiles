@@ -83,7 +83,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   export SDL_VIDEODRIVER=wayland
-  export QT_QPA_PLATFORM=wayland 
+  export QT_QPA_PLATFORM=wayland
   if [ -z "$XDG_CURRENT_DESKTOP" ]; then
     export XDG_CURRENT_DESKTOP="sway"
   fi
@@ -92,7 +92,7 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   fi
 elif [ "$XDG_SESSION_TYPE" = "x11" ]; then
   export SDL_VIDEODRIVER=x11
-  export QT_QPA_PLATFORM=xcb 
+  export QT_QPA_PLATFORM=xcb
   if [ -z "$XDG_CURRENT_DESKTOP" ] && [ -n "$DESKTOP_SESSION" ]; then
     export XDG_CURRENT_DESKTOP="$DESKTOP_SESSION"
   fi
@@ -105,7 +105,8 @@ else
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export NVM_USR_DIR="/usr/share/nvm/"
+[ -s "$NVM_USR_DIR/init-nvm.sh" ] && \. "$NVM_USR_DIR/init-nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
