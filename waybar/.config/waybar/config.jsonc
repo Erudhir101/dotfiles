@@ -1,7 +1,7 @@
 {
   "position": "top",
   "margin": "5 10 0",
-  "modules-left": ["niri/workspaces", "wlr/taskbar", "cpu", "memory"],
+  "modules-left": ["niri/workspaces", "cffi/niri-taskbar", "cpu", "memory"],
   "modules-center": ["niri/window"],
   "modules-right": ["pulseaudio", "backlight", "battery", "clock", "tray"],
   // Modules configuration
@@ -51,6 +51,12 @@
     "tooltip-format": "{title}",
     "on-click": "activate",
     "on-click-middle": "close",
+  },
+  "cffi/niri-taskbar": {
+    "module_path": "/usr/lib/waybar/libniri_taskbar.so",
+    "all-outputs": false,
+    "show-icons": true,
+    "icon-size": 12,
   },
   "clock": {
     "interval": 1,

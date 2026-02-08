@@ -27,6 +27,17 @@ window#waybar.empty #window {
   background-color: @blue;
 }
 
+.niri-taskbar button {
+  border-top: solid 4px transparent;
+  border-bottom: solid 4px transparent;
+}
+
+.niri-taskbar button.unread,
+.niri-taskbar button.urgent {
+  border-top: solid 4px transparent;
+  border-bottom: solid 4px transparent;
+}
+
 #workspaces button {
   color: @text;
   background-color: @crust;
