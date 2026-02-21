@@ -12,6 +12,29 @@
 local add = vim.pack.add
 local now_if_args, later = Config.now_if_args, Config.later
 
+-- flash ================================================================
+later(function()
+  add({ "https://github.com/folke/flash.nvim" })
+  local flash = require("flash")
+
+  flash.setup({
+    search = {
+      mode = "search",
+    },
+    modes = {
+      char = {
+        enabled = false,
+      }
+    },
+  })
+
+  vim.keymap.set({ "n", "x", "o" }, ";f", function()
+    flash.jump()
+  end, { desc = "flash Jump" })
+  vim.keymap.set({ "n", "x", "o" }, ";s", function()
+    flash.treesitter()
+  end, { desc = "flash Treesitter" })
+end)
 -- Tree-sitter ================================================================
 
 -- Tree-sitter is a tool for fast incremental parsing. It converts text into
@@ -52,9 +75,30 @@ now_if_args(function()
   -- for the installation to finish before opening a file for added language(s).
   local languages = {
     -- These are already pre-installed with Neovim. Used as an example.
-    'lua',
-    'vimdoc',
-    'markdown',
+    "bash",
+    "c",
+    "c3",
+    "cpp",
+    "css",
+    "dockerfile",
+    "gitignore",
+    "go",
+    "html",
+    "java",
+    "javascript",
+    "json",
+    "lua",
+    "markdown",
+    "markdown_inline",
+    "prisma",
+    "python",
+    "rust",
+    "svelte",
+    "tsx",
+    "typescript",
+    "vim",
+    "vimdoc",
+    "yaml",
     -- Add here more languages with which you want to use tree-sitter
     -- To see available languages:
     -- - Execute `:=require('nvim-treesitter').get_available()`
@@ -96,6 +140,21 @@ end)
 now_if_args(function()
   add({ 'https://github.com/neovim/nvim-lspconfig' })
 
+  local lsp = {
+    clangd = {},
+    cssls = {},
+    eslint_d = {},
+    jdtls = {},
+    lua_ls = {},
+    prettierd = {},
+    stylua = {},
+    svelte = {},
+    tailwindcss = {},
+    vtsls = {},
+    zls = {},
+    qmlls = {},
+  }
+  vim.lsp.enable(vim.tbl_keys(lsp))
   -- Use `:h vim.lsp.enable()` to automatically enable language server based on
   -- the rules provided by 'nvim-lspconfig'.
   -- Use `:h vim.lsp.config()` or 'after/lsp/' directory to configure servers.
@@ -120,6 +179,12 @@ later(function()
   -- - `:h Conform`
   -- - `:h conform-options`
   -- - `:h conform-formatters`
+  local prettier = {
+    "prettierd",
+    "prettier",
+    stop_after_first = true
+  }
+
   require('conform').setup({
     default_format_opts = {
       -- Allow formatting from LSP server if no dedicated formatter is available
@@ -127,7 +192,61 @@ later(function()
     },
     -- Map of filetype to formatters
     -- Make sure that necessary CLI tool is available
-    -- formatters_by_ft = { lua = { 'stylua' } },
+    formatters_by_ft = {
+      javascript = prettier,
+      typescript = prettier,
+      javascriptreact = prettier,
+      typescriptreact = prettier,
+      svelte = prettier,
+      css = prettier,
+      html = prettier,
+      json = prettier,
+      jsonc = prettier,
+      yaml = prettier,
+      markdown = prettier,
+      graphql = prettier,
+      -- sql = { "sql-formatter" },
+      lua = { "stylua" },
+      c = { "clang-format" },
+      cpp = { "clang-format" },
+      -- rust = { "ast_grep" },
+      -- python = { "isort", "black" },
+      -- bash = { "shfmt" },
+      -- shell = { "shfmt" },
+    },
+    format_on_save = {
+      lsp_fallback = true,
+      async = false,
+      timeout_ms = 1001,
+    },
+    formatters = {
+      astyle = {
+        command = "astyle",
+        prepend_args = { "-s3", "-c", "-J", "-n", "-q", "-z2", "-xC80" },
+      },
+      ["clang-format"] = {
+        -- command = "clang-format",
+        prepend_args = { "--style=file" },
+      },
+      ["cmake-format"] = {
+        command = "cmake-format",
+        prepend_args = { "-i" },
+      },
+      prettier = {
+        command = "prettier",
+        prepend_args = { "-w" },
+      },
+      prettierd = {
+        command = "prettierd",
+        prepend_args = { "-w" },
+      },
+      ["sql-formatter"] = {
+        command = "sql-formatter",
+        prepend_args = {
+          "--language=postgresql",
+        },
+      },
+    },
   })
 end)
 
@@ -152,10 +271,10 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 -- If you need them to work elsewhere, consider using other package managers.
 --
 -- You can use it like so:
--- now_if_args(function()
---   add({ 'https://github.com/mason-org/mason.nvim' })
---   require('mason').setup()
--- end)
+now_if_args(function()
+  add({ 'https://github.com/mason-org/mason.nvim' })
+  require('mason').setup()
+end)
 
 -- Beautiful, usable, well maintained color schemes outside of 'mini.nvim' and
 -- have full support of its highlight groups. Use if you don't like 'miniwinter'

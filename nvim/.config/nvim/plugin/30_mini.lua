@@ -33,7 +33,15 @@ local now, now_if_args, later = Config.now, Config.now_if_args, Config.later
 -- - `:h mini.nvim-color-schemes` - list of other color schemes
 -- - `:h MiniHues-examples` - how to define highlighting with 'mini.hues'
 -- - 'plugin/40_plugins.lua' honorable mentions - other good color schemes
-now(function() vim.cmd('colorscheme miniwinter') end)
+-- now(function() vim.cmd('colorscheme miniwinter') end)
+
+now(function()
+  require "mini.hues".setup {
+    background = '#11262d',
+    foreground = '#c0c8cc',
+    saturation = "high"
+  }
+end)
 
 -- You can try these other 'mini.hues'-based color schemes (uncomment with `gcc`):
 -- now(function() vim.cmd('colorscheme minispring') end)
@@ -93,14 +101,27 @@ end)
 --
 -- See also:
 -- - `:h MiniNotify.config` for some of common configuration examples.
-now(function() require('mini.notify').setup() end)
+now(function()
+  local notify = require("mini.notify")
+  notify.setup({
+    content = {
+      sort = function(notif_arr)
+        local filtered = vim.tbl_filter(function(notif)
+          local msg = notif.msg or ""
+          return not msg:match("jdtls")
+        end, notif_arr)
+        return notify.default_sort(filtered)
+      end
+    }
+  })
+end)
 
 -- Session management. A thin wrapper around `:h mksession` that consistently
 -- manages session files. Example usage:
 -- - `<Leader>sn` - start new session
 -- - `<Leader>sr` - read previously started session
 -- - `<Leader>sd` - delete previously started session
-now(function() require('mini.sessions').setup() end)
+-- now(function() require('mini.sessions').setup() end)
 
 -- Start screen. This is what is shown when you open Neovim like `nvim`.
 -- Example usage:
@@ -111,7 +132,48 @@ now(function() require('mini.sessions').setup() end)
 -- See also:
 -- - `:h MiniStarter-example-config` - non-default config examples
 -- - `:h MiniStarter-lifecycle` - how to work with Starter buffer
-now(function() require('mini.starter').setup() end)
+now(function()
+  local starter = require("mini.starter")
+  local greeting = function()
+    local hour = tonumber(vim.fn.strftime("%H"))
+    -- [04:00, 12:00) - morning, [12:00, 20:00) - day, [20:00, 04:00) - evening
+    local part_id = math.floor((hour + 4) / 8) + 1
+    local day_part = ({ "evening", "morning", "afternoon", "evening" })[part_id]
+    local username = vim.loop.os_get_passwd()["username"] or "USERNAME"
+    return ("Good %s, %s"):format(day_part, username)
+  end
+
+  local longest_line = function(s)
+    local lines = vim.fn.split(s, "\n")
+    local lengths = vim.tbl_map(vim.fn.strdisplaywidth, lines)
+    return math.max(unpack(lengths))
+  end
+  starter.setup({
+    items = {
+      starter.sections.recent_files(3, false, false),
+      {
+        { name = "Mason",          action = "Mason",      section = "Updaters" },
+        { name = "Update plugins", action = "DepsUpdate", section = "Updaters" },
+        { name = "Pick files",     action = "Pick files", section = "Actions" },
+        { name = "Quit Neovim",    action = "qall",       section = "Actions" },
+      }
+    },
+    header = function()
+      local banner = [[
+                 █              █
+
+████████████ ███ ████████ ███
+██████████████ ████ ██████████ ████
+█████ ████ █████ ████ █████ █████ ████
+█████ ████ █████ ████ █████ █████ ████
+█████ ████ ████████ █████ ████████
+]]
+      local msg = greeting()
+      return banner .. string.rep(" ", longest_line(banner) - msg:len()) .. msg
+    end,
+    footer = ""
+  })
+end)
 
 -- Statusline. Sets `:h 'statusline'` to show more info in a line below window.
 -- Example usage:
@@ -221,7 +283,7 @@ end)
 -- - `:h MiniFiles-examples` - examples of common setups
 now_if_args(function()
   -- Enable directory/file preview
-  require('mini.files').setup({ windows = { preview = true } })
+  require('mini.files').setup({ windows = { preview = false } })
 
   -- Add common bookmarks for every explorer. Example usage inside explorer:
   -- - `'c` to navigate into your config directory
@@ -392,16 +454,16 @@ later(function()
     -- Explicitly opt-in for set of common keys to trigger clue window
     triggers = {
       { mode = { 'n', 'x' }, keys = '<Leader>' }, -- Leader triggers
-      { mode =   'n',        keys = '\\' },       -- mini.basics
+      { mode = 'n',          keys = '\\' },       -- mini.basics
       { mode = { 'n', 'x' }, keys = '[' },        -- mini.bracketed
       { mode = { 'n', 'x' }, keys = ']' },
-      { mode =   'i',        keys = '<C-x>' },    -- Built-in completion
+      { mode = 'i',          keys = '<C-x>' },    -- Built-in completion
       { mode = { 'n', 'x' }, keys = 'g' },        -- `g` key
       { mode = { 'n', 'x' }, keys = "'" },        -- Marks
       { mode = { 'n', 'x' }, keys = '`' },
       { mode = { 'n', 'x' }, keys = '"' },        -- Registers
       { mode = { 'i', 'c' }, keys = '<C-r>' },
-      { mode =   'n',        keys = '<C-w>' },    -- Window commands
+      { mode = 'n',          keys = '<C-w>' },    -- Window commands
       { mode = { 'n', 'x' }, keys = 's' },        -- `s` key (mini.surround, etc.)
       { mode = { 'n', 'x' }, keys = 'z' },        -- `z` key
     },
@@ -444,7 +506,15 @@ later(function() require('mini.comment').setup() end)
 --
 -- It is not enabled by default because its effects are a matter of taste.
 -- Uncomment next line (use `gcc`) to enable.
--- later(function() require('mini.cursorword').setup() end)
+later(function()
+  _G.cursorword_blocklist = function()
+    local cursorword = vim.fn.expand("<cword>")
+    local blocklist = { '--', '__', '//', '#' }
+    vim.b.minicursorword_disable = vim.tbl_contains(blocklist, cursorword)
+  end
+  vim.cmd("au CursorMoved * lua _G.cursorword_blocklist()")
+  require('mini.cursorword').setup()
+end)
 
 -- Work with diff hunks that represent the difference between the buffer text and
 -- some reference text set by a source. Default source uses text from Git index.
@@ -474,7 +544,7 @@ later(function() require('mini.diff').setup() end)
 -- - `:h MiniGit-examples` - examples of common setups
 -- - `:h :Git` - more details about `:Git` user command
 -- - `:h MiniGit.show_at_cursor()` - what information at cursor is shown
-later(function() require('mini.git').setup() end)
+-- later(function() require('mini.git').setup() end)
 
 -- Highlight patterns in text. Like `TODO`/`NOTE` or color hex codes.
 -- Example usage:
@@ -510,14 +580,19 @@ end)
 --
 -- See also:
 -- - `:h MiniIndentscope.gen_animation` - available animation rules
-later(function() require('mini.indentscope').setup() end)
+later(function()
+  local indent = require('mini.indentscope')
+  indent.setup({
+    draw = { animation = indent.gen_animation.none() }
+  })
+end)
 
 -- Jump to next/previous single character. It implements "smarter `fFtT` keys"
 -- (see `:h f`) that work across multiple lines, start "jumping mode", and
 -- highlight all target matches. Example usage:
 -- - `fxff` - move *f*orward onto next character "x", then next, and next again
 -- - `dt)` - *d*elete *t*ill next closing parenthesis (`)`)
-later(function() require('mini.jump').setup() end)
+-- later(function() require('mini.jump').setup() end)
 
 -- Jump within visible lines to pre-defined spots via iterative label filtering.
 -- Spots are computed by a configurable spotter function. Example usage:
@@ -529,7 +604,7 @@ later(function() require('mini.jump').setup() end)
 --
 -- See also:
 -- - `:h MiniJump2d.gen_spotter` - list of available spotters
-later(function() require('mini.jump2d').setup() end)
+-- later(function() require('mini.jump2d').setup() end)
 
 -- Special key mappings. Provides helpers to map:
 -- - Multi-step actions. Apply action 1 if condition is met; else apply
@@ -545,6 +620,7 @@ later(function() require('mini.jump2d').setup() end)
 later(function()
   require('mini.keymap').setup()
   -- Navigate 'mini.completion' menu with `<Tab>` /  `<S-Tab>`
+  MiniKeymap.map_combo({ "i", "c", "x", "s" }, "jk", "<BS><BS><Esc>")
   MiniKeymap.map_multistep('i', '<Tab>', { 'pmenu_next' })
   MiniKeymap.map_multistep('i', '<S-Tab>', { 'pmenu_prev' })
   -- On `<CR>` try to accept current completion item, fall back to accounting
@@ -565,28 +641,28 @@ end)
 -- - `:h MiniMap.gen_integration` - list of integrations to show in the map
 --
 -- NOTE: Might introduce lag on very big buffers (10000+ lines)
-later(function()
-  local map = require('mini.map')
-  map.setup({
-    -- Use Braille dots to encode text
-    symbols = { encode = map.gen_encode_symbols.dot('4x2') },
-    -- Show built-in search matches, 'mini.diff' hunks, and diagnostic entries
-    integrations = {
-      map.gen_integration.builtin_search(),
-      map.gen_integration.diff(),
-      map.gen_integration.diagnostic(),
-    },
-  })
-
-  -- Map built-in navigation characters to force map refresh
-  for _, key in ipairs({ 'n', 'N', '*', '#' }) do
-    local rhs = key
-      -- Also open enough folds when jumping to the next match
-      .. 'zv'
-      .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
-    vim.keymap.set('n', key, rhs)
-  end
-end)
+-- later(function()
+--   local map = require('mini.map')
+--   map.setup({
+--     -- Use Braille dots to encode text
+--     symbols = { encode = map.gen_encode_symbols.dot('4x2') },
+--     -- Show built-in search matches, 'mini.diff' hunks, and diagnostic entries
+--     integrations = {
+--       map.gen_integration.builtin_search(),
+--       map.gen_integration.diff(),
+--       map.gen_integration.diagnostic(),
+--     },
+--   })
+--
+--   -- Map built-in navigation characters to force map refresh
+--   for _, key in ipairs({ 'n', 'N', '*', '#' }) do
+--     local rhs = key
+--         -- Also open enough folds when jumping to the next match
+--         .. 'zv'
+--         .. '<Cmd>lua MiniMap.refresh({}, { lines = false, scrollbar = false })<CR>'
+--     vim.keymap.set('n', key, rhs)
+--   end
+-- end)
 
 -- Move any selection in any direction. Example usage in Normal mode:
 -- - `<M-j>`/`<M-k>` - move current line down / up
@@ -669,7 +745,44 @@ end)
 -- - `:h MiniPick.builtin` and `:h MiniExtra.pickers` - available pickers;
 --   Execute one either with Lua function, `:Pick <picker-name>` command, or
 --   one of `<Leader>f` mappings defined in 'plugin/20_keymaps.lua'
-later(function() require('mini.pick').setup() end)
+later(function()
+  local pick = require("mini.pick")
+  local bufremove = require("mini.bufremove")
+  pick.setup()
+
+  vim.keymap.set("n", '<leader>ft', function()
+    pick.builtin.grep({
+      pattern = '\\b(TODO|FIXME|HACK|NOTE|Todo|Fixme|Hack|Note|todo|fixme|hack|note)\\b',
+    })
+  end, { desc = 'todo comments' })
+
+  --- keymap 'C-d' for delete marked items or cursor on item in buffer
+  pick.registry.buffers = function(local_opts)
+    local wipeout_cur = function()
+      local exclude_map = {}
+      local matches = pick.get_picker_matches()
+
+      if vim.tbl_count(matches.marked) > 0 then
+        for _, mark in pairs(matches.marked) do
+          if mark == nil then return end
+          exclude_map[mark.bufnr] = true
+          bufremove.delete(mark.bufnr)
+        end
+      elseif matches.current then
+        exclude_map[matches.current.bufnr] = true
+        bufremove.delete(matches.current.bufnr)
+      end
+
+      local filter = vim.tbl_filter(function(value)
+        return not exclude_map[value.bufnr]
+      end, pick.get_picker_items())
+      pick.set_picker_items(filter)
+    end
+
+    local buffer_mappings = { wipeout = { char = '<C-d>', func = wipeout_cur } }
+    pick.builtin.buffers(local_opts, { mappings = buffer_mappings })
+  end
+end)
 
 -- Manage and expand snippets (templates for a frequently used text).
 -- Typical workflow is to type snippet's (configurable) prefix and expand it
@@ -750,7 +863,7 @@ end)
 --
 -- See also:
 -- - `:h MiniSplitjoin.gen_hook` - list of available hooks
-later(function() require('mini.splitjoin').setup() end)
+-- later(function() require('mini.splitjoin').setup() end)
 
 -- Surround actions: add/delete/replace/find/highlight. Working with surroundings
 -- is surprisingly common: surround word with quotes, replace `)` with `]`, etc.
@@ -794,7 +907,7 @@ later(function() require('mini.trailspace').setup() end)
 -- See also:
 -- - `:h MiniVisits-overview` - overview of how module works
 -- - `:h MiniVisits-examples` - examples of common setups
-later(function() require('mini.visits').setup() end)
+-- later(function() require('mini.visits').setup() end)
 
 -- Not mentioned here, but can be useful:
 -- - 'mini.doc' - needed only for plugin developers.
