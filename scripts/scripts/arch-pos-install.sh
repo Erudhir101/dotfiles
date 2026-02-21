@@ -107,7 +107,6 @@ sudo pacman -S --needed --noconfirm \
     fastfetch \
     fzf \
     htop \
-    htop \
     inetutils \
     lsof \
     net-tools \
@@ -398,18 +397,18 @@ if [ -d "$DOTFILES_DIR" ]; then
 else
     print_message "Cloning dotfiles from $DOTFILES_REPO..."
     git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
-    
+
     if [ $? -eq 0 ]; then
         print_message "Dotfiles cloned successfully!"
-        
+
         print_message "Applying dotfiles with GNU Stow..."
         cd "$DOTFILES_DIR"
-        
+
         # Backup existing config files if they exist
         print_message "Backing up any existing config files..."
         BACKUP_DIR="$HOME/.config_backup_$(date +%Y%m%d_%H%M%S)"
         mkdir -p "$BACKUP_DIR"
-        
+
         # Common configs that might conflict
         for config in .zshrc .config/kitty .config/nvim .config/niri .config/waybar .config/mako .config/fuzzel .config/starship.toml; do
             if [ -e "$HOME/$config" ] && [ ! -L "$HOME/$config" ]; then
@@ -417,11 +416,11 @@ else
                 cp -r "$HOME/$config" "$BACKUP_DIR/" 2>/dev/null || true
             fi
         done
-        
+
         # Apply stow for all packages in dotfiles
         # Adjust this based on your dotfiles structure
         print_message "Applying stow packages..."
-        
+
         # Common stow pattern: stow -d ~/.dotfiles -t ~ package_name
         # If your repo has packages in subdirectories, uncomment and adjust:
         # for package in */; do
@@ -431,11 +430,11 @@ else
         #         stow -v -t "$HOME" "$package_name" 2>&1 | grep -v "BUG in find_stowed_path" || true
         #     fi
         # done
-        
+
         # If dotfiles are in root of repo, use:
         print_message "Stowing dotfiles..."
         stow -v -d "$DOTFILES_DIR" -t "$HOME" . 2>&1 | grep -v "BUG in find_stowed_path" || true
-        
+
         print_message "Dotfiles applied! Backup saved to: $BACKUP_DIR"
         cd ~
     else
