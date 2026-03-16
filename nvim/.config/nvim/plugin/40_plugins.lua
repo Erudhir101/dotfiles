@@ -141,18 +141,20 @@ now_if_args(function()
   add({ 'https://github.com/neovim/nvim-lspconfig' })
 
   local lsp = {
+    basedpyright = {},
     clangd = {},
     cssls = {},
     eslint_d = {},
     jdtls = {},
     lua_ls = {},
     prettierd = {},
+    qmlls = {},
+    ruff = {},
     stylua = {},
     svelte = {},
     tailwindcss = {},
     vtsls = {},
     zls = {},
-    qmlls = {},
   }
   vim.lsp.enable(vim.tbl_keys(lsp))
   -- Use `:h vim.lsp.enable()` to automatically enable language server based on
@@ -211,6 +213,7 @@ later(function()
       cpp = { "clang-format" },
       -- rust = { "ast_grep" },
       -- python = { "isort", "black" },
+      python = { "ruff" },
       -- bash = { "shfmt" },
       -- shell = { "shfmt" },
     },
